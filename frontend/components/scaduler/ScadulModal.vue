@@ -23,7 +23,7 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12 sm12 md12>
-                <v-text-field label="date*" required></v-text-field>
+                <v-text-field label="date*"  :value="date" readonly></v-text-field>
               </v-flex>
               <v-flex xs12 sm12 md12>
                 <v-text-field label="제목*" hint="제목" required></v-text-field>
@@ -43,8 +43,8 @@
                 <v-text-field label="전화" type="전화번호"></v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
-                <v-text-field label="대금" type="결제대금"></v-text-field>
-              </v-flex>
+                <v-text-field label="대금" :value="form.cost" type="number" suffix="원" :v-bind="form.cost"></v-text-field>
+              </v-flex> 
               <v-flex xs12 sm6>
                 <v-select
                   :items="['긴급', '메모', '배송']"
@@ -75,8 +75,50 @@
 
 <script>
   export default {
+    props: {
+      'date': String
+    },
     data: () => ({
-      dialog: false
-    })
+      dialog: false,
+      form: {
+        day: null,
+        title: null,
+        detail: null,
+        address: null,
+        phone: null,
+        cost: null,
+        Priority: null
+      },
+      rules: {
+        required: value => !!value || 'Required.',
+        cost: value => value.length <= 20 || 'Max 20 characters'
+      }
+    }),
+    mounted () {
+      this.form.day = this.date
+    },
+    methods: {
+      is_num (str) {
+        var patternNum = /[0-9]/
+        var patternEng = /[a-zA-Z]/
+        var patternSpc = /[~!@#$%^&*()_+|<>?:{}]/
+        var patternKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/
+        if ((patternNum.test(str)) && !(patternEng.test(str)) && !(patternSpc.test(str)) && !(patternKor.test(str))) {
+          return true
+        } else {
+          return false
+        }
+      }
+    }
   }
 </script>
+
+<style lang="stylus" scope="this api replaced by slot-scope in 2.5.0+">
+.scaduler_fab.v-btn--floating.v-btn--absolute
+  z-index 1
+.v-text-field__slot input[type='number'] 
+  -moz-appearance:textfield
+.v-text-field__slot input::-webkit-outer-spin-button,
+.v-text-field__slot input::-webkit-inner-spin-button 
+  -webkit-appearance: none
+</style>

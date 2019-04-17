@@ -1,19 +1,21 @@
 <template>
    <div>
     <Scaduler class="scaduler"/>
-    <Feed class="feed"   :title-data="feed.titleData" :header-data="feed.headerData"/>
+    <Feed class="feed" :title-data="feed.titleData" :header-data="feed.headerData"/>
   </div>
 </template>
 
 <script>
 import Scaduler from '@/components/scaduler/Scaduler'
 import Feed from '@/components/feed/Feed'
+import NewFeed from '@/components/feed/NewFeed'
 
 export default {
   layout: 'default',
   components: {
     Scaduler,
-    Feed
+    Feed,
+    NewFeed
   },
   data: () => ({
     feed: {
@@ -28,10 +30,3 @@ export default {
   })
 }
 </script>
-
-<style lang="stylus" scope="this api replaced by slot-scope in 2.5.0+">
-.v-navigation-drawer
-  z-index 9000
-.v-overlay
-  z-index 8000
-</style>
