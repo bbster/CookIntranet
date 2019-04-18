@@ -1,1 +1,3 @@
 frontend/node_modules
+.python-version
+.idea
