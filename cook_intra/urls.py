@@ -16,6 +16,7 @@ Including another URLconf
 # demo_project/urls.py
 from django.contrib import admin
 from django.urls import include, path
+from cook_intra import views
 
 
 urlpatterns = [
@@ -24,3 +25,6 @@ urlpatterns = [
     path('api/v1/feeds/', include('feeds.urls')),
 ]
 
+urlpatterns += [
+    path('', views.VueAppView.as_view()),
+]

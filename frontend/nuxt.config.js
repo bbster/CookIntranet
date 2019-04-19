@@ -2,6 +2,7 @@ module.exports = {
   /*
   ** Headers of the page
   */
+  modules: ['@nuxtjs/pwa'],
   head: {
     title: 'thecook-admin',
     meta: [
@@ -36,5 +37,12 @@ module.exports = {
         })
       }
     }
+  },
+  manifest: {
+    name: 'TheCook-Admin',
+    short_name: 'Admin',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#000'
   }
 }

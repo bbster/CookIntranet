@@ -29,7 +29,7 @@
         </v-list>
         </no-ssr>
         </div>
-    <Modal/>
+    <Modal v-bind:date="date"/>
 
     </v-flex>
 
@@ -112,7 +112,7 @@
       position sticky
       top 0
       background #303030
-      z-index 10
+      z-index 1
     .scaduler_fab
       z-index 9999
 ::-webkit-scrollbar

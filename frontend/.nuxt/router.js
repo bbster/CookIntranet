@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { interopDefault } from './utils'
 
-const _33c9c8ed = () => interopDefault(import('..\\pages\\login.vue' /* webpackChunkName: "pages_login" */))
-const _00284873 = () => interopDefault(import('..\\pages\\product.vue' /* webpackChunkName: "pages_product" */))
-const _6a2225d6 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */))
+const _20dc02b3 = () => interopDefault(import('..\\pages\\login.vue' /* webpackChunkName: "pages_login" */))
+const _1cd9ae8e = () => interopDefault(import('..\\pages\\product.vue' /* webpackChunkName: "pages_product" */))
+const _57345f9c = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */))
 
 Vue.use(Router)
 
@@ -82,15 +82,15 @@ export function createRouter() {
 
     routes: [{
       path: "/login",
-      component: _33c9c8ed,
+      component: _20dc02b3,
       name: "login"
     }, {
       path: "/product",
-      component: _00284873,
+      component: _1cd9ae8e,
       name: "product"
     }, {
       path: "/",
-      component: _6a2225d6,
+      component: _57345f9c,
       name: "index"
     }],
 
