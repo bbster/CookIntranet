@@ -186,7 +186,7 @@ export default {
         width: 100%
         border-bottom: 1px solid #f5f5f5
         height: auto
-        padding: 10px
+        padding: 20px 0
     .v-datatable__expand-row
         padding 2px 5px
     .mobile table.v-table tr td ul li:before
@@ -217,5 +217,9 @@ export default {
     width: 50%
     height: auto
     font-weight: bold
-    
+
+.v-datatable__expand-row
+    padding 0 10px
+    text-align justify
+    border-bottom 2px solid black
 </style>

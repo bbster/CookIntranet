@@ -25,6 +25,10 @@
                 <v-list-tile-title>{{note.title}}</v-list-tile-title>
                 <v-list-tile-sub-title>{{note.author}}</v-list-tile-sub-title>
               </v-list-tile-content>
+                <v-spacer></v-spacer>
+              <v-btn icon>
+                <v-icon>more_vert</v-icon>
+              </v-btn>
             </v-list-tile>
         </v-list>
         </no-ssr>
@@ -40,7 +44,6 @@
         <li>주소<br/><a :href="'https://www.google.co.kr/maps/search/'+notes[noteidx].address">{{ notes[noteidx].address }}</a></li>
         <li>전화<br/><a :href="'tel:'+notes[noteidx].tel">{{ notes[noteidx].tel }}</a></li>
         <li>대금<br/>{{ notes[noteidx].price }}원</li>
-
       </ul>
     </v-flex>
   </v-layout>
