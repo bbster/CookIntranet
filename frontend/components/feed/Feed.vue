@@ -47,15 +47,17 @@
     </v-toolbar>
             <v-data-table item-key="id" :headers="headers" :items="feeds" :search="search" :pagination.sync="pagination" :hide-headers="isMobile" :class="{mobile: isMobile}" :expand="expand">
               <template slot="items" slot-scope="props">
-                <tr v-if="!isMobile"  @click="props.expanded = !props.expanded">
+                <tr v-if="!isMobile"  @click="props.expanded = !props.expanded"
+                :style="getColorByStatus(props.item.status)">
                   <td>{{ props.item.manager }}</td>
                   <td class="text-xs-right" ><span class="px-1" :key="staff" v-for="staff in props.item.staff">{{staff}}</span></td>
                   <td class="text-xs-right">{{ props.item.status }}</td>
                   <td class="text-xs-right">{{ props.item.title }}</td>
                 </tr>
-                <tr v-else  @click="props.expanded = !props.expanded">
+                <tr v-else  @click="props.expanded = !props.expanded"
+                 :style="getColorByStatus(props.item.status)">
                   <td>
-                    <ul class="flex-content">
+                    <ul class="flex-content" >
                       <li class="flex-item" data-label="Manager">{{ props.item.manager }}</li>
                       <li class="flex-item" data-label="Staff"><span class="px-1" :key="staff" v-for="staff in props.item.staff">{{staff}}</span></li>
                       <li class="flex-item" data-label="Status">{{ props.item.status }}</li>
@@ -119,7 +121,12 @@ export default {
       status: null,
       title: null,
       memo: null
-    }]
+    }],
+    colors: {
+      '긴급': 'red',
+      '중요': 'yellow',
+      '보통': 'green'
+    }
   }),
   mixins: [IsMobile],
   methods: {
@@ -147,9 +154,11 @@ export default {
 
       const [month, day, year] = date.split('/')
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+    },
+    getColorByStatus (status) {
+      return { borderLeft: `6px solid ${this.colors[status]}` }
     }
   },
-
   created () {
     this.feeds = getFeeds()
   },
@@ -171,12 +180,6 @@ export default {
         max-width: 100%
         position: relative
         display: block
-
-    .mobile table.v-table tr:not(.v-datatable__expand-row):nth-child(4n+1)
-        border-left: 6px solid blue
-
-    .mobile table.v-table tr:not(.v-datatable__expand-row):nth-child(4n+3)
-        border-left: 6px solid #ddd
 
     .mobile table.v-table tr td:not(.v-datatable__expand-col)
         display: flex
