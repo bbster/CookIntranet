@@ -47,6 +47,7 @@
       </v-btn> -->
       <v-toolbar-title  v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
+      <AlertBadge/>
       <v-btn
         icon
         @click.stop="rightDrawer = !rightDrawer"
@@ -92,8 +93,12 @@
 
 <script>
 import IsMobile from '@/mixin/isMobile'
+import AlertBadge from '@/components/badge/AlertBadge'
 
 export default {
+  components: {
+    AlertBadge
+  },
   data () {
     return {
       clipped: false,
