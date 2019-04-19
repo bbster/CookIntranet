@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_framework',
     'authen',
-    'feeds'
+    'feeds',
 ]
 
 MIDDLEWARE = [

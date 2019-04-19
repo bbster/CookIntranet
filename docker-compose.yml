@@ -1,18 +1,22 @@
 version: '3'
+
 services:
   django:
-    build:
-      context: .
-      dockerfile: "./docker-compose/django/Dockerfile"
-    restart: always
-    container_name: gogo_django
+      build:
+        context: .
+        dockerfile: "./docker-compose/django/Dockerfile"
+      restart: always
+      container_name: gogo_django
+      stdin_open: true
+      ports:
+        - "8000:8000"
   vuejs:
     build: "./frontend"
     ports:
       - "8080:8080"
 
 #
-#version : '3'
+#version : '3'/
 #services: # docker-compose 에서 컨테이너(service) 단위를 묶음
 #  web: # 앱 service 이름zdz
 #    build:
