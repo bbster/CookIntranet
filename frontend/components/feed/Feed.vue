@@ -76,7 +76,7 @@
 
 
 <script>
-import API from '@/api'
+import { getFeeds } from '@/api'
 import IsMobile from '@/mixin/isMobile'
 
 export default {
@@ -151,7 +151,7 @@ export default {
   },
 
   created () {
-    this.feeds = API.getFeeds()
+    this.feeds = getFeeds()
   },
   watch: {
     date (val) {

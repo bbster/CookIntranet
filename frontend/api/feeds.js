@@ -57,11 +57,50 @@ const Feeds = [
   }
 ]
 
+/**
+ * Feeds Create Function
+ * @param
+ */
+const createFeeds = async function () {
+  const data = await this.$axios.$get('feeds/create')
+  return { data }
+}
+/**
+ * Feeds GetList Function
+ * @param
+ */
 const getFeeds = (limit) => {
   return (limit) ? Feeds.slice(0, limit) : Feeds
 }
-
+/**
+ * Feeds Update Function
+ * @param
+ */
+const updateFeeds = async function () {
+  const data = await this.$axios.$get('feeds/update')
+  return { data }
+}
+/**
+ * Feeds Delete Function
+ * @param
+ */
+const deleteFeeds = async function () {
+  const data = await this.$axios.$get('feeds/delete')
+  return { data }
+}
+/**
+ * Feeds ReadDetail Function
+ * @param
+ */
+const detailFeeds = async function () {
+  const data = await this.$axios.$get('feeds/detail')
+  return { data }
+}
 export {
   Feeds,
-  getFeeds
+  createFeeds,
+  getFeeds,
+  updateFeeds,
+  deleteFeeds,
+  detailFeeds
 }

@@ -5,8 +5,18 @@ import * as Scadule from './Scadule'
 import * as Feeds from './Feeds'
 
 export default {
-  // order
-  getProduct: Product.getProduct,
-  getScadule: Scadule.getScadule,
-  getFeeds: Feeds.getFeeds
+  Product,
+  Scadule,
+  Feeds
+  // getProduct: Product.getProduct
+}
+
+export function getFeeds () {
+  return Feeds.getFeeds()
+}
+export function getProduct () {
+  return Product.getProduct()
+}
+export function getScadule () {
+  return Scadule.getScadule()
 }

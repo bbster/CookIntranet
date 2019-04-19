@@ -1,8 +1,30 @@
+var environment = {
+  API_URL: 'http://',
+  PROXY: false,
+  DEBUG: true,
+  RETRIES: 2
+}
+
 module.exports = {
   /*
   ** Headers of the page
   */
-  modules: ['@nuxtjs/pwa'],
+  env: {
+    // baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+  },
+  modules: [
+    '@nuxtjs/pwa',
+    '@nuxtjs/axios'
+  ],
+  axios: {
+    // proxyHeaders: false
+    baseUrl: environment.API_URL,
+    proxy: environment.PROXY,
+    debug: environment.DEBUG,
+    retry: {
+      retries: environment.RETRIES
+    }
+  },
   head: {
     title: 'thecook-admin',
     meta: [

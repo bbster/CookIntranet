@@ -88,9 +88,7 @@ const Scadule = [
     type: '배송'
   }
 ]
-// const getScadule = (limit) => {
-//   return (limit) ? Scadule.slice(0, limit) : Scadule
-// }
+
 const getScadule = () => {
   let data = [
     Scadule[Math.floor(Math.random() * 3)],
@@ -102,7 +100,53 @@ const getScadule = () => {
   ]// .filter((value, index, self) => self.indexOf(value) === index)
   return Array.from(new Set(data))
 }
+
+/**
+ * Scadule Create Function
+ * @param
+ */
+const createScadule = async function () {
+  const data = await this.$axios.$get('scadule/create')
+  return { data }
+}
+/**
+ * Scadule ListGet Function
+ * @param
+ */
+// const getScadule = async function () {
+//   const data = await this.$axios.$get('scadule/list')
+//   return { data }
+// }
+/**
+ * Scadule Update Function
+ * @param
+ */
+const updateScadule = async function () {
+  const data = await this.$axios.$get('scadule/update')
+  return { data }
+}
+/**
+ * Scadule Delete Function
+ * @param
+ */
+const deleteScadule = async function () {
+  const data = await this.$axios.$get('scadule/delete')
+  return { data }
+}
+/**
+ * Scadule DetailGet Function
+ * @param
+ */
+const detailScadule = async function () {
+  const data = await this.$axios.$get('scadule/detail')
+  return { data }
+}
+
 export {
   Scadule,
-  getScadule
+  createScadule,
+  getScadule,
+  updateScadule,
+  deleteScadule,
+  detailScadule
 }

@@ -87,6 +87,8 @@
     </v-navigation-drawer>
     <v-footer :fixed="fixed" app>
       <span>&copy; The Cook {{ new Date().getFullYear() }}</span>
+      <v-spacer></v-spacer>
+      <span class="text-lg-right">로그인 중입니다</span>
     </v-footer>
   </v-app>
 </template>

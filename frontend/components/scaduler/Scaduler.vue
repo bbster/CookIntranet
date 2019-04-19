@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import API from '@/api'
+  import { getScadule } from '@/api'
   import ScadulModal from '@/components/scaduler/ScadulModal'
 
   export default {
@@ -85,13 +85,13 @@
       date (date) {
         /* 해당날짜 일정리스트 가져오기 */
         console.log(date)
-        this.notes = API.getScadule()
+        this.notes = getScadule()
       }
     },
     created () {
     // can use Data(this.title, this.titleComputed ...), events(vm.$on, vm.$once, vm.$off, vm.$emit)
       this.date = new Date().toISOString().substr(0, 10)
-      this.notes = API.getScadule()
+      this.notes = getScadule()
     }
   }
 </script>
