@@ -56,8 +56,8 @@
                 <tr v-else  @click="props.expanded = !props.expanded">
                   <td>
                     <ul class="flex-content">
-                      <li class="flex-item" data-label="Manager"><span class="px-1" :key="staff" v-for="staff in props.item.staff">{{staff}}</span></li>
-                      <li class="flex-item" data-label="Staff">{{ props.item.staff }}</li>
+                      <li class="flex-item" data-label="Manager">{{ props.item.manager }}</li>
+                      <li class="flex-item" data-label="Staff"><span class="px-1" :key="staff" v-for="staff in props.item.staff">{{staff}}</span></li>
                       <li class="flex-item" data-label="Status">{{ props.item.status }}</li>
                       <li class="flex-item" data-label="Title">{{ props.item.title }}</li>
                     </ul>
