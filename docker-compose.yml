@@ -1,0 +1,19 @@
+version: '3' #docker-compose version 3
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: "./docker-compose/django/Dockerfile"
+      #"./도커파일 경로"
+    restart: always
+    container_name: django_practice
+    stdin_open: true #표준입력_오픈 // 사용자의 입력을 기다림 // bash
+    ports:
+      - "8084:8080"
+    #port forwarding
+  vuejs:
+    build: "./frontend"
+    ports:
+      - "8084:8080"
+    #port forwarding
