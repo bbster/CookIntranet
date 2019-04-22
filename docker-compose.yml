@@ -32,6 +32,7 @@ services:
     #port forwarding
     depends_on:
       - db
+
 networks:
   django_server_network:
     external: false
