@@ -26,7 +26,7 @@ SECRET_KEY = '$=x1$xg%7&4qwn7d#=13)2^jz!q=z@jabngd1hxy9!o*q^ye-f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'authen',
-    'feeds'
+    'feeds',
 ]
 
 MIDDLEWARE = [
@@ -95,7 +95,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'cookintranet',
-        'USER': 'bbster',
+        'USER': 'admin',
         'PASSWORD': 'dlwlehd12',
         'HOST': 'localhost',
         'PORT': '5432',
