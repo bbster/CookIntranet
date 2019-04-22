@@ -1,19 +1,36 @@
 version: '3' #docker-compose version 3
 
 services:
+  vuejs:
+    build: "./frontend"
+    ports:
+      - "8084:8080"
+    #port forwarding
+
+  db:
+    build:
+      context: .
+      dockerfile: "./docker-compose/db/Dockerfile"
+    networks:
+      - django_server_network
+    restart: always
+    container_name: django_postgres
+
   django:
     build:
       context: .
       dockerfile: "./docker-compose/django/Dockerfile"
       #"./도커파일 경로"
+    networks:
+      - django_server_network
     restart: always
     container_name: django_practice
     stdin_open: true #표준입력_오픈 // 사용자의 입력을 기다림 // bash
     ports:
       - "8084:8080"
     #port forwarding
-  vuejs:
-    build: "./frontend"
-    ports:
-      - "8084:8080"
-    #port forwarding
+    depends_on:
+      - db
+networks:
+  django_server_network:
+    external: false

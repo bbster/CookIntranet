@@ -1,7 +1,14 @@
+pip
+pytz==2019.1
+
+#django
 Django==2.2
 django-environ==0.4.5
 django-rest-auth==0.9.5
 djangorestframework==3.9.2
-pytz==2019.1
-six==1.12.0
-sqlparse==0.3.0
+
+#Postgresql
+psycopg2-binary
+
+#service
+uwsgi

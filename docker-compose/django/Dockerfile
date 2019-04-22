@@ -6,8 +6,8 @@ MAINTAINER LEE Ji Chan bbster12@gmail.com
 WORKDIR /home/server/
 
 #Python Packages
-COPY ./requirements/requirements.txt/   /home/server/requirements/
-RUN  pip install -r requirements/requirements.txt
+COPY ./requirements/base.txt/   /home/server/requirements/
+RUN  pip install -r requirements/base.txt
 
 #Project source
 COPY    ./manage.py            /home/server/
