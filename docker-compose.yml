@@ -15,7 +15,7 @@ services:
     networks:
       - django_server_network
     restart: always
-    container_name: django_postgres
+    container_name: intranet_postgres
 
   django:
     build:
@@ -25,7 +25,7 @@ services:
     networks:
       - django_server_network
     restart: always
-    container_name: django_practice
+    container_name: intranet_django
     stdin_open: true #표준입력_오픈 // 사용자의 입력을 기다림 // bash
     ports:
       - "8084:8080"
