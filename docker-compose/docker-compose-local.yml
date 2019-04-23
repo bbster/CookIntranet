@@ -5,3 +5,5 @@ services:
   django:
     environment:
       - DEPLOYMENT_LEVEL=local
+    ports:
+      - "8080:8000"
