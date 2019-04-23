@@ -97,7 +97,7 @@ DATABASES = {
         'NAME': 'cookintranet',
         'USER': 'admin',
         'PASSWORD': 'dlwlehd12',
-        'HOST': 'localhost',
+        'HOST': 'intranet_postgres', #DB 컨테이너 이름으로 변경
         'PORT': '5432',
     }
 }
