@@ -91,17 +91,6 @@ WSGI_APPLICATION = 'cook_intra.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cookintranet',
-        'USER': 'admin',
-        'PASSWORD': 'dlwlehd12',
-        'HOST': 'intranet_postgres', #DB 컨테이너 이름으로 변경
-        'PORT': '5432',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

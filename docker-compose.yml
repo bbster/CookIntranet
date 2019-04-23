@@ -5,7 +5,7 @@ services:
   vuejs:
     build: "./frontend"
     ports:
-      - "8084:8080"
+      - "8080:8000"
     #port forwarding
 
   db:
@@ -28,10 +28,11 @@ services:
     container_name: intranet_django
     stdin_open: true #표준입력_오픈 // 사용자의 입력을 기다림 // bash
     ports:
-      - "8084:8080"
-    #port forwarding
+      - "8080:8000"
+    #port forwarding-9
     depends_on:
       - db
+
 
 networks:
   django_server_network:
