@@ -18,3 +18,5 @@ COPY    ./authen/               /home/server/authen/
 COPY    ./cook_intra/           /home/server/cook_intra/
 COPY    ./feeds/                /home/server/feeds/
 COPY    ./frontend/             /home/server/frontend/
+
+EXPOSE 8000
