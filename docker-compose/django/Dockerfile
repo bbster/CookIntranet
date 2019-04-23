@@ -11,15 +11,15 @@ COPY ./requirements/base.txt/   /home/server/requirements/
 RUN  pip install -r requirements/base.txt
 
 #Project source
-COPY    ./manage.py            /home/server/
-COPY    ./.vscode/             /home/server/.vscode/
-COPY    ./_nuxt/                /home/server/_nuxt/
-COPY    ./authen/               /home/server/authen/
-COPY    ./cook_intra/           /home/server/cook_intra/
-COPY    ./feeds/                /home/server/feeds/
-COPY    ./frontend/             /home/server/frontend/
+COPY    ./manage.py                 /home/server/
+COPY    ./.vscode/                  /home/server/.vscode/
+COPY    ./_nuxt/                    /home/server/_nuxt/
+COPY    ./authen/                   /home/server/authen/
+COPY    ./cook_intra/               /home/server/cook_intra/
+COPY    ./feeds/                    /home/server/feeds/
+COPY    ./frontend/                 /home/server/frontend/
+COPY    ./docker_entrypoint.sh      /home/server/
 
 EXPOSE 8000
 
-#RUN python manage.py migrate
-#RUN python manage.py runserver 0.0.0.0:8000
+ENTRYPOINT ["./docker_entrypoint.sh"]
