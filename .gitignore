@@ -1,4 +1,5 @@
 frontend/node_modules
 .python-version
 .idea
+client_build
 db.sqlite3

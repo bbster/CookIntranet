@@ -26,7 +26,7 @@ SECRET_KEY = '$=x1$xg%7&4qwn7d#=13)2^jz!q=z@jabngd1hxy9!o*q^ye-f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'authen',
-    'feeds'
+    'feeds',
 ]
 
 MIDDLEWARE = [
@@ -83,12 +83,13 @@ WSGI_APPLICATION = 'cook_intra.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# sqlite3
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -131,9 +132,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_ROOT = str(ROOT_DIR('_nuxt'))
-STATIC_URL = '/static/'
-STATIC_DIR = os.path.join(BASE_DIR, 'frontend','dist', '_nuxt')
-STATICFILES_DIRS = [
-    STATIC_DIR
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'django_static')
+STATIC_URL = '/django_static/'

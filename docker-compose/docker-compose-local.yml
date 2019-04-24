@@ -1,0 +1,9 @@
+
+version: '3' #docker-compose version 3
+
+services:
+  django:
+    environment:
+      - DEPLOYMENT_LEVEL=local
+    ports:
+      - "80:80"
