@@ -32,6 +32,7 @@ RUN     echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN     rm /etc/nginx/sites-enabled/default
 COPY    ./docker-compose/nginx.conf          /etc/nginx/sites-enabled/cook_server_nginx.conf
 COPY    ./docker-compose/supervisord.conf    /etc/supervisor/conf.d/cook_server_supervisord.conf
+COPY    ./docker-compose/uwsgi.ini           /home/server/uwsgi.ini
 
 EXPOSE 80
 
