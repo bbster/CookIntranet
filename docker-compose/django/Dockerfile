@@ -30,7 +30,8 @@ COPY    ./client_build/             /home/server/client/
 COPY    ./docker_entrypoint.sh    /home/server/
 RUN     echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN     rm /etc/nginx/sites-enabled/default
-COPY    ./docker-compose/cook_server_nginx.conf    /etc/nginx/sites-enabled/cook_server_nginx.conf
+COPY    ./docker-compose/nginx.conf          /etc/nginx/sites-enabled/cook_server_nginx.conf
+COPY    ./docker-compose/supervisord.conf    /etc/supervisor/conf.d/cook_server_supervisord.conf
 
 EXPOSE 80
 
