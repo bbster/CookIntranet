@@ -6,4 +6,4 @@ services:
     environment:
       - DEPLOYMENT_LEVEL=production
     ports:
-      - "80:8000"
+      - "80:80"
