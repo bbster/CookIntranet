@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework import viewsets, permissions, generics, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from .serializers import *
 from .models import Member
@@ -9,29 +10,47 @@ from .models import Member
 
 # 멤버뷰셋 멤버오브젝트 반환? 이것도 잘모르겠음
 class MemberViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated, ]
+    # 회원가입을 할땐, 권한 체크 X
     serializer_class = MemberSerializers
     queryset = Member.objects.all()
 
-    # POST
-    def create(self, request, *args, **kwargs):
-        pass
+    # POST  => 회원가입
+    def create(self, request, *args, **kwargs):  # Y
+        print("MemberViewSet 의 create 함수 실행됨")
 
-    # GET : 리스트
+        return super().create(request, *args, **kwargs)
+
+    # GET : 리스트  (질문: 권한없는사람이 이거 실행해도됨?) N
     def list(self, request, *args, **kwargs):
-        pass
+        print("MemberViewSet 의 list 함수 실행됨")
+        # 권한체크로직이 필요
+        return super().list(request, *args, **kwargs)
 
-    # GET 상세
+    # GET 상세  (질문: 권한없는사람이 이거 실행해도됨?) N
     def retrieve(self, request, *args, **kwargs):
-        pass
+        # 권한체크로직이 필요
+        return super().retrieve(request, *args, **kwargs)
 
-    # PUT
+    # PUT  (질문: 권한없는사람이 이거 실행해도됨?) N
     def update(self, request, *args, **kwargs):
-        pass
+        # 권한체크로직이 필요
+        return super().update(request, *args, **kwargs)
 
-    # DELETE
+    # DELETE  (질문: 권한없는사람이 이거 실행해도됨?) N
     def destroy(self, request, *args, **kwargs):
-        pass
+        # 권한체크로직이 필요
+        return super().destroy(request, *args, **kwargs)
+
+    @action(detail=False, methods=['get'])
+    def custom(self, request):
+        return Response("")
+
+    @action(detail=True, methods=['get', 'post'])
+    def custom_detail(self, request, pk):
+        if request.method == "GET":
+            return Response("")
+        else:  # POST
+            return Response("")
 
 
 # 사용자추가? 토큰 생성도 함 뭘까?

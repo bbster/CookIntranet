@@ -17,6 +17,10 @@ router.register('members', MemberViewSet)
 # PUT www.test.com/auth/members/23/     => update
 # DELETE www.test.com/auth/members/23/     => update
 
+# GET www.test.com/auth/custom/
+# GET www.test.com/auth/{pk}/custom_detail/
+# POST www.test.com/auth/{pk}/custom_detail/
+
 # {"username":~~, "password": ~~~, "phone_number": ~~}
 # 1. POST 로 요청하면 "rest_framework" 는 create함수를 실행함
 
@@ -29,6 +33,6 @@ router.register('members', MemberViewSet)
 
 
 urlpatterns = [
-    #path('', include('rest_auth.urls')),
+    # path('', include('rest_auth.urls')),
     path('', include(router.urls)),
 ]
