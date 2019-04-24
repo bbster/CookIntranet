@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_framework',
     'corsheaders',
+
+    # My api
     'authen',
     'feeds',
 ]
@@ -112,6 +114,9 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authtoken'
     ]
 }
 
