@@ -3,3 +3,4 @@ frontend/node_modules
 .idea
 client_build
 db.sqlite3
+*.pyc
