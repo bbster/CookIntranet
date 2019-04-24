@@ -12,3 +12,7 @@ git 설치, docker 설치, docker-compose 설치
 1. git pull origin master
 2. ./scripts/update_{DEPLOYMENT_LEVEL('local' or 'production')}_docker_server.sh
 
+#### Nginx config reference
+- https://www.linode.com/docs/web-servers/nginx/how-to-configure-nginx/
+- https://www.nginx.com/resources/wiki/start/topics/examples/full/
+- https://www.opentutorials.org/module/384/4526

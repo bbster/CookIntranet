@@ -132,9 +132,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_ROOT = str(ROOT_DIR('_nuxt'))
-STATIC_URL = '/static/'
-STATIC_DIR = os.path.join(BASE_DIR, 'frontend','dist', '_nuxt')
-STATICFILES_DIRS = [
-    STATIC_DIR
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'django_static')
+STATIC_URL = '/django_static/'
