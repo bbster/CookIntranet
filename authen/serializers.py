@@ -8,7 +8,7 @@ from .models import Member
 class MemberSerializers(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ("id", "first_name", "last_name", "phone_number")
+        fields = ("id", "first_name", "last_name", "phone_number", "username", "password")
 
 
 # 회원 가입 // 뭔지 정확히 다 파악못함

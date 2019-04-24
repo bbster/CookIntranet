@@ -20,9 +20,9 @@ from cook_intra import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),  # 장고어드민
     #path('api/v1/authen/', include('authen.urls')),
-    path('auth/', include('authen.urls')),
+    path('auth/', include('authen.urls')),  # 회원관련
     path('api/v1/feeds/', include('feeds.urls')),
 ]
 

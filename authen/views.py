@@ -11,9 +11,27 @@ from .models import Member
 class MemberViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = MemberSerializers
+    queryset = Member.objects.all()
 
-    def get_queryset(self):
-        return Member.objects.all()
+    # POST
+    def create(self, request, *args, **kwargs):
+        pass
+
+    # GET : 리스트
+    def list(self, request, *args, **kwargs):
+        pass
+
+    # GET 상세
+    def retrieve(self, request, *args, **kwargs):
+        pass
+
+    # PUT
+    def update(self, request, *args, **kwargs):
+        pass
+
+    # DELETE
+    def destroy(self, request, *args, **kwargs):
+        pass
 
 
 # 사용자추가? 토큰 생성도 함 뭘까?
