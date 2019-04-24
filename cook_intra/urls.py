@@ -21,7 +21,8 @@ from cook_intra import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/authen/', include('authen.urls')),
+    #path('api/v1/authen/', include('authen.urls')),
+    path('auth/', include('authen.urls')),
     path('api/v1/feeds/', include('feeds.urls')),
 ]
 
