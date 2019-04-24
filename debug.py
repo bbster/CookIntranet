@@ -9,7 +9,7 @@ def test():
     from feeds.models import Feed
     feeds = Feed.objects.all()
     print(feeds)
-
+    # test
 
 # MAIN 시작점
 if __name__ == "__main__":
