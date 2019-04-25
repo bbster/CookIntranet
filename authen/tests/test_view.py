@@ -20,3 +20,14 @@ class Test(TestCase):
         # 명령어: pytest -s
         # breakpoint() 를 활용하자
         pass
+
+    def test_get(self):
+        # pytest 에서의 get 예제
+        self.get(
+            "/auth/member/?a=1&b=2",
+            header={
+                "token": "token1"
+            }
+        )
+        self.response_200()
+        res = self.last_response.json()
