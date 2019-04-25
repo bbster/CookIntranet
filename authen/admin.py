@@ -1,9 +1,8 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
-
 from authen.models import Member
 
 
 @admin.register(Member)
 class MemberAdmin(ModelAdmin):
-    list_display = ('id', 'username')
+    list_display = ('id', 'username', 'first_name', 'last_name', 'phone_number')

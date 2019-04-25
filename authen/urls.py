@@ -1,7 +1,6 @@
 from django.urls import include, path
-
 from rest_framework import routers
-from authen.views import *
+from authen.views import MemberViewSet
 
 router = routers.DefaultRouter()
 router.register('members', MemberViewSet)

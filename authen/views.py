@@ -1,10 +1,12 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework import viewsets, permissions, generics, status
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import *
+from authen.serializers import CreateUserSerializer, UserSerializer, LoginUserSerializer, MemberSerializers
 from .models import Member
 
 
@@ -58,7 +60,7 @@ class RegistrationAPI(generics.GenericAPIView):
     serializer_class = CreateUserSerializer
 
     def post(self, request, *args, **kwargs):
-        if len(request.data["username"])<6 or len(request.data["password"])<4:
+        if len(request.data["username"]) < 6 or len(request.data["password"]) < 4:
             body = {"message": "short field"}
             return Response(body, status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(data=request.data)
