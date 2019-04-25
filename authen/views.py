@@ -73,4 +73,3 @@ class MemberViewSet(viewsets.ModelViewSet):
             return Response("")
         else:  # POST
             return Response("")
-
