@@ -3,8 +3,7 @@ from rest_framework import routers
 from authen.views import MemberViewSet
 
 router = routers.DefaultRouter()
-router.register('members', MemberViewSet)
-
+router.register('member', MemberViewSet)
 
 # base: django
 # second lib: rest_framework
