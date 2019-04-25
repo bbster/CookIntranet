@@ -1,10 +1,21 @@
 from django.contrib.auth import authenticate
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
 from authen.serializers import MemberSerializers
 from .models import Member
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 
 class MemberViewSet(viewsets.ModelViewSet):
@@ -44,6 +55,8 @@ class MemberViewSet(viewsets.ModelViewSet):
     def login(self, request, *args, **kwargs):
         username = request.POST['username']
         password = request.POST['password']
+        for user in User.objects.all():
+            Token.objects.create(user=user)
         user = authenticate(username=username, password=password)
         if not user:
             return HttpResponse("사용자가 아닙니다")
@@ -60,3 +73,4 @@ class MemberViewSet(viewsets.ModelViewSet):
             return Response("")
         else:  # POST
             return Response("")
+
