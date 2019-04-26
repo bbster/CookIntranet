@@ -44,7 +44,6 @@ class MemberViewSet(viewsets.ModelViewSet):
         if user is not None:
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
-            #            print(token)
             # JWT TOKEN RESPONSE
             return Response(token, status=200)
         else:
