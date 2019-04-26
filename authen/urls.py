@@ -1,10 +1,13 @@
 from django.urls import include, path
 from rest_framework import routers
 from authen.views import MemberViewSet
-from rest_framework.authtoken.views import ObtainAuthToken
 
 router = routers.DefaultRouter()
 router.register('member', MemberViewSet)
+
+urlpatterns = [
+    path('', include(router.urls)),
+]
 
 # base: django
 # second lib: rest_framework
@@ -29,10 +32,3 @@ router.register('member', MemberViewSet)
 # GET -> Read --> rest 에서는 list 형식과 하나를 콕찝어서 조회하는 방식(상세페이지)
 # PUT -> Update
 # DELETE -> DELETE
-
-
-urlpatterns = [
-    # path('', include('rest_auth.urls')),
-    path('', include(router.urls)),
-    path('api-token-auth/', ObtainAuthToken.as_view(), name='api_token_auth'),
-]

@@ -12,13 +12,14 @@ class Test(TestCase):
                 "last_name": "정"
             }
         )
+
         self.response_201()
         res = self.last_response.json()
         assert res["username"] == "010-2386-8724"
 
+
     def test2(self):
         # 명령어: pytest -s
-        # breakpoint() 를 활용하자
         pass
 
     def test_get(self):
@@ -31,3 +32,5 @@ class Test(TestCase):
         )
         self.response_200()
         res = self.last_response.json()
+        breakpoint()
+        pass
