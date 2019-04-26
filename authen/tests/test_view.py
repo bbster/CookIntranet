@@ -17,7 +17,6 @@ class Test(TestCase):
         res = self.last_response.json()
         assert res["username"] == "010-2386-8724"
 
-
     def test2(self):
         # 명령어: pytest -s
         pass

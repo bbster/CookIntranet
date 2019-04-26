@@ -1,21 +1,11 @@
 from django.contrib.auth import authenticate
-from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.http import HttpResponse
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
+from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
+
 from authen.serializers import MemberSerializers
 from .models import Member
-
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
-        print(Token)
 
 
 class MemberViewSet(viewsets.ModelViewSet):
@@ -24,7 +14,7 @@ class MemberViewSet(viewsets.ModelViewSet):
     queryset = Member.objects.all()
 
     # POST : 생성
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['POST'])
     def join(self, request, *args, **kwargs):
         # 회원가입
         username = request.data.get("username", None)
@@ -34,25 +24,32 @@ class MemberViewSet(viewsets.ModelViewSet):
             return Response({"msg": "'username' 파라미터는 필수값입니다."})
         if not password:
             return Response({"msg": "'password' 파라미터는 필수값입니다."})
-
         try:
             saved_user = Member.objects.create_user(**request.data)
         except:
             return Response({"msg": "요청 파라미터가 잘못되었습니다."}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.get_serializer(saved_user)
         data = serializer.data
         data.update({"msg": "회원가입에 성공하였습니다.", "user_token": ""})
         return Response(data, status=status.HTTP_201_CREATED)
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['POST'])
     def login(self, request, *args, **kwargs):
         username = request.data.get("username", None)
         password = request.data.get("password", None)
         user = authenticate(username=username, password=password)
-        if not user:
-            return HttpResponse("사용자가 아닙니다")
+
+        # LOGIN 할때 JWT TOKEN 발급
+        if user is not None:
+            payload = jwt_payload_handler(user)
+            token = jwt_encode_handler(payload)
+            #            print(token)
+            # JWT TOKEN RESPONSE
+            return Response(token, status=200)
         else:
-            return HttpResponse("오오 사용자다 헐!")
+            return Response({'Error': "ERROR"}, status=400)
+
     #
     # # GET : 리스트  (질문: 권한없는사람이 이거 실행해도됨?) N
     # def list(self, request, *args, **kwargs):
