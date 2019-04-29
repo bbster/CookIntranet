@@ -5,9 +5,9 @@ from feeds import models
 
 class TodoSerializer(serializers.ModelSerializer):
     class Meta:
+        model = models.Feed
         fields = (
             'id',
             'title',
             'description',
         )
-        model = models.Feed

@@ -1,65 +1,90 @@
-from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from rest_framework import viewsets, permissions, generics, status
+from django.contrib.auth import authenticate
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import *
+from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
+
+from authen.serializers import MemberSerializers
+from base.permissions import BasePermission
 from .models import Member
 
 
-# 멤버뷰셋 멤버오브젝트 반환? 이것도 잘모르겠음
 class MemberViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated, ]
+    # 회원가입을 할땐, 권한 체크 X
     serializer_class = MemberSerializers
+    queryset = Member.objects.all()
+    permission_classes = (BasePermission, )
 
-    def get_queryset(self):
-        return Member.objects.all()
+    # POST : 생성
+    @action(detail=False, methods=['POST'])
+    def join(self, request, *args, **kwargs):
+        # 회원가입
+        username = request.data.get("username", None)
+        password = request.data.get("password", None)
 
+        if not username:
+            return Response({"msg": "'username' 파라미터는 필수값입니다."})
+        if not password:
+            return Response({"msg": "'password' 파라미터는 필수값입니다."})
+        try:
+            saved_user = Member.objects.create_user(**request.data)
+        except:
+            return Response({"msg": "요청 파라미터가 잘못되었습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
-# 사용자추가? 토큰 생성도 함 뭘까?
-class RegistrationAPI(generics.GenericAPIView):
-    serializer_class = CreateUserSerializer
+        serializer = self.get_serializer(saved_user)
+        data = serializer.data
+        data.update({"msg": "회원가입에 성공하였습니다."})
+        return Response(data, status=status.HTTP_201_CREATED)
 
-    def post(self, request, *args, **kwargs):
-        if len(request.data["username"])<6 or len(request.data["password"])<4:
-            body = {"message": "short field"}
-            return Response(body, status=status.HTTP_400_BAD_REQUEST)
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        return Response(
-            {
-                "user": UserSerializer(user, context=self.get_serializer_context()).data,
-                "token": Token.objects.create(user),
-            }
-        )
+    @action(detail=False, methods=['POST'])
+    def login(self, request, *args, **kwargs):
+        username = request.data.get("username", None)
+        password = request.data.get("password", None)
+        user = authenticate(username=username, password=password)
 
+        # LOGIN 할때 JWT TOKEN 발급
+        if user is not None:
+            payload = jwt_payload_handler(user)
+            token = jwt_encode_handler(payload)
+            # JWT TOKEN RESPONSE
+            return Response({"token": token}, status=200)
+        else:
+            return Response({'Error': "ERROR"}, status=400)
 
-class LoginAPI(generics.GenericAPIView):
-    serializer_class = LoginUserSerializer
+    @action(detail=False, methods=['get'])
+    def test(self, request, *args, **kwargs):
+        return Response({"msg": "OK"}, status=200)
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data
-        return Response(
-            {
-                "user": UserSerializer(
-                    user, context=self.get_serializer_context()).data,
-                "token": Token.objects.create(user),
-            }
-        )
-
-
-# 뭔지 모름 ㅇㅇ;;
-class UserAPI(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = User
-
-    def get_object(self):
-        return self.request.user
-
-    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-    def create_auth_token(sender, instance=None, created=False, **kwargs):
-        if created:
-            Token.objects.create(user=instance)
+    #
+    # # GET : 리스트  (질문: 권한없는사람이 이거 실행해도됨?) N
+    # def list(self, request, *args, **kwargs):
+    #     print("MemberViewSet 의 list 함수 실행됨")
+    #     # 권한체크로직이 필요
+    #     return super().list(request, *args, **kwargs)
+    #
+    # # GET 상세  (질문: 권한없는사람이 이거 실행해도됨?) N
+    # def retrieve(self, request, *args, **kwargs):
+    #     # 권한체크로직이 필요
+    #     return super().retrieve(request, *args, **kwargs)
+    #
+    # # PUT  (질문: 권한없는사람이 이거 실행해도됨?) N
+    # def update(self, request, *args, **kwargs):
+    #     print("MemberViewSet 의 update 함수 실행됨")
+    #     # 권한체크로직이 필요
+    #     return super().update(request, *args, **kwargs)
+    #
+    # # DELETE  (질문: 권한없는사람이 이거 실행해도됨?) N
+    # def destroy(self, request, *args, **kwargs):
+    #     print("MemberViewSet 의 Delete 함수 실행됨")
+    #     # 권한체크로직이 필요
+    #     return super().destroy(request, *args, **kwargs)
+    # @action(detail=False, methods=['get'])
+    # def custom(self, request):
+    #     return Response("")
+    #
+    # @action(detail=True, methods=['get', 'post'])
+    # def custom_detail(self, request, pk):
+    #     if request.method == "GET":
+    #         return Response("")
+    #     else:  # POST
+    #         return Response("")
