@@ -22,7 +22,7 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify
 
 
 urlpatterns = [
-    path('api/admin/', admin.site.urls),  # 장고어드민
+    path('admin/', admin.site.urls),  # 장고어드민
     path('api/auth/', include('authen.urls')),  # 회원관련
     path('api/feeds/', include('feeds.urls')),
     path('api/token/', obtain_jwt_token),
