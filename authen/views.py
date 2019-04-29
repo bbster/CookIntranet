@@ -55,7 +55,6 @@ class MemberViewSet(viewsets.ModelViewSet):
     def test(self, request, *args, **kwargs):
         return Response({"msg": "OK"}, status=200)
 
-
     #
     # # GET : 리스트  (질문: 권한없는사람이 이거 실행해도됨?) N
     # def list(self, request, *args, **kwargs):
@@ -79,9 +78,6 @@ class MemberViewSet(viewsets.ModelViewSet):
     #     print("MemberViewSet 의 Delete 함수 실행됨")
     #     # 권한체크로직이 필요
     #     return super().destroy(request, *args, **kwargs)
-    #
-    #
-    #
     # @action(detail=False, methods=['get'])
     # def custom(self, request):
     #     return Response("")

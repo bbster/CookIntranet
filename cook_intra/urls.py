@@ -22,12 +22,12 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # 장고어드민
-    path('auth/', include('authen.urls')),  # 회원관련
-    path('feeds/', include('feeds.urls')),
-    path('token/', obtain_jwt_token),
-    path('token/refresh/', refresh_jwt_token),
-    path('token/verify/', verify_jwt_token),
+    path('api/admin/', admin.site.urls),  # 장고어드민
+    path('api/auth/', include('authen.urls')),  # 회원관련
+    path('api/feeds/', include('feeds.urls')),
+    path('api/token/', obtain_jwt_token),
+    path('api/token/refresh/', refresh_jwt_token),
+    path('api/token/verify/', verify_jwt_token),
 
 ]
 
