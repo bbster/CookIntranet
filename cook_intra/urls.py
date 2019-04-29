@@ -25,9 +25,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),  # 장고어드민
     path('auth/', include('authen.urls')),  # 회원관련
     path('feeds/', include('feeds.urls')),
-    path('api/token/', obtain_jwt_token),
-    path('api/token/refresh/', refresh_jwt_token),
-    path('api/token/verify/', verify_jwt_token),
+    path('token/', obtain_jwt_token),
+    path('token/refresh/', refresh_jwt_token),
+    path('token/verify/', verify_jwt_token),
 
 ]
 

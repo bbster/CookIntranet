@@ -31,7 +31,7 @@ class MemberViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(saved_user)
         data = serializer.data
-        data.update({"msg": "회원가입에 성공하였습니다.", "user_token": ""})
+        data.update({"msg": "회원가입에 성공하였습니다."})
         return Response(data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['POST'])
@@ -49,6 +49,7 @@ class MemberViewSet(viewsets.ModelViewSet):
             return Response(token, status=200)
         else:
             return Response({'Error': "ERROR"}, status=400)
+
 
     #
     # # GET : 리스트  (질문: 권한없는사람이 이거 실행해도됨?) N
