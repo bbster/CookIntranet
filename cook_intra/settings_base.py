@@ -11,11 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 import datetime
 import os, environ
-from rest_framework.settings import *
 
-
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = environ.Path(__file__) - 2
 APPS_DIR = ROOT_DIR.path('cook_intra')
@@ -117,16 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
-}
+
 #USER_SETTINGS = getattr(settings, 'JWT_AUTH', None)
 REST_USE_JWT = True
 

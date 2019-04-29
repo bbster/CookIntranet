@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 
 from authen.serializers import MemberSerializers
+from base.permissions import BasePermission
 from .models import Member
 
 
@@ -12,6 +13,7 @@ class MemberViewSet(viewsets.ModelViewSet):
     # 회원가입을 할땐, 권한 체크 X
     serializer_class = MemberSerializers
     queryset = Member.objects.all()
+    permission_classes = (BasePermission, )
 
     # POST : 생성
     @action(detail=False, methods=['POST'])
@@ -44,11 +46,14 @@ class MemberViewSet(viewsets.ModelViewSet):
         if user is not None:
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
-            #            print(token)
             # JWT TOKEN RESPONSE
-            return Response(token, status=200)
+            return Response({"token": token}, status=200)
         else:
             return Response({'Error': "ERROR"}, status=400)
+
+    @action(detail=False, methods=['get'])
+    def test(self, request, *args, **kwargs):
+        return Response({"msg": "OK"}, status=200)
 
 
     #
