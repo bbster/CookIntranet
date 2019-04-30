@@ -11,7 +11,6 @@ RUN apt-get install -y build-essential nginx supervisor postgresql-client g++ au
 
 # Python Packages
 COPY ./requirements/base.txt/   /home/server/requirements/
-RUN  pip install --upgrade pip
 RUN  pip install -r requirements/base.txt
 
 # server source
@@ -19,7 +18,6 @@ COPY    ./manage.py                 /home/server/
 COPY    ./.vscode/                  /home/server/.vscode/
 COPY    ./_nuxt/                    /home/server/_nuxt/
 COPY    ./authen/                   /home/server/authen/
-COPY    ./base/                     /home/server/base/
 COPY    ./cook_intra/               /home/server/cook_intra/
 COPY    ./feeds/                    /home/server/feeds/
 
