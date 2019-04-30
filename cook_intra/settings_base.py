@@ -26,7 +26,7 @@ SECRET_KEY = '$=x1$xg%7&4qwn7d#=13)2^jz!q=z@jabngd1hxy9!o*q^ye-f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "172.31.27.183"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -121,7 +121,7 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': int(os.getenv('DJANGO_PAGINATION_LIMIT', 10)),
     'DATETIME_FOMAT': '%Y-%m-%dT%H:%M:%S%z',
-    'DEFAULT_RENDERER_CLASSES':(
+    'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ),
