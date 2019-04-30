@@ -18,6 +18,7 @@ COPY    ./manage.py                 /home/server/
 COPY    ./.vscode/                  /home/server/.vscode/
 COPY    ./_nuxt/                    /home/server/_nuxt/
 COPY    ./authen/                   /home/server/authen/
+COPY    ./base/                     /home/server/base/
 COPY    ./cook_intra/               /home/server/cook_intra/
 COPY    ./feeds/                    /home/server/feeds/
 
