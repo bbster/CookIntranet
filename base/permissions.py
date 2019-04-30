@@ -4,8 +4,8 @@ from authen.models import Member
 
 
 class BasePermission(DRFBasePermission):
-    def has_permission(self, request, view):  #  사용자 지정 권한
-        if view.action == "join":             #  view.action  조인
+    def has_permission(self, request, view):  # 사용자 지정 권한
+        if view.action == "join":             # view.action  조인
             return True  # permission True
         elif view.action == "login":
             return True

@@ -39,8 +39,6 @@ class Test(TestCase):
         self.response_200()
         assert self.last_response.json()["msg"] == "OK"
 
-
-
     # def test2(self):
     #     # 명령어: pytest -s
     #     pass
