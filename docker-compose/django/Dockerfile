@@ -1,4 +1,3 @@
-
 # Use python 3
 FROM python:3.7.3
 MAINTAINER LEE Ji Chan bbster12@gmail.com
@@ -9,7 +8,6 @@ WORKDIR /home/server/
 # service for web server
 RUN apt-get update
 RUN apt-get install -y build-essential nginx supervisor postgresql-client g++ automake1.11 perl libffi-dev vim
-
 
 # Python Packages
 COPY ./requirements/base.txt/   /home/server/requirements/
