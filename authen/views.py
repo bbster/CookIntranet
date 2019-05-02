@@ -62,7 +62,7 @@ class LoginViewSet(viewsets.ModelViewSet):
             return Response({'Error': "ERROR"}, status=400)
 
     @action(detail=False, methods=['POST'])  # token header value decode
-    def decode_jwt_token(self, request, *args, **kwargs):
+    def verify(self, request, *args, **kwargs):
         token = request.data.get('token')  # Json 데이터형식 헤더값 받아옴
         payload = jwt.decode(token, settings_base.SECRET_KEY, algorithms=['HS256'])  # jwt token decode
         user = payload['username']  # decode 값 담기
