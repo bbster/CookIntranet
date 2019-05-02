@@ -1,9 +1,12 @@
 from django.urls import include, path
 from rest_framework import routers
-from authen.views import MemberViewSet
+
+from authen import views
+# from authen.views import MemberViewSet, LoginViewSet
 
 router = routers.DefaultRouter()
-router.register('member', MemberViewSet)
+router.register('', views.MemberViewSet)
+router.register('authen', views.LoginViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
