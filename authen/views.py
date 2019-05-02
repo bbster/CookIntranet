@@ -67,4 +67,3 @@ class LoginViewSet(viewsets.ModelViewSet):
         payload = jwt.decode(token, settings_base.SECRET_KEY, algorithms=['HS256'])  # jwt token decode
         user = payload['username']  # decode 값 담기
         return Response({"username": user}, status=200)
-
