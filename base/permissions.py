@@ -7,7 +7,9 @@ class BasePermission(DRFBasePermission):
     def has_permission(self, request, view):  # 사용자 지정 권한
         if view.action == "join":             # view.action  조인
             return True  # permission True
-        elif view.action == "login":
+        elif view.action == "login":  # view.login 조인
+            return True
+        elif view.action == "decode_jwt_token":  # view.decode_jwt_token 조인
             return True
         else:
             user_token = request.META.get("HTTP_USER_TOKEN", None)
