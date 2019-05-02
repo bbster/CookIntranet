@@ -7,6 +7,7 @@ from authen import views
 router = routers.DefaultRouter()
 router.register('', views.MemberViewSet)
 router.register('authen', views.LoginViewSet)
+router.register('verify', views.VerifyViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

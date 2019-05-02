@@ -4,7 +4,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
-from authen.serializers import MemberSerializers, LoginSerializers
+from authen.serializers import MemberSerializers, LoginSerializers, VerifySerializers
 from base import basepermissions, loginpermissions
 from cook_intra import settings_base
 from .models import Member
@@ -61,6 +61,11 @@ class LoginViewSet(viewsets.ModelViewSet):
         else:
             return Response({'Error': "ERROR"}, status=400)
 
+
+class VerifyViewSet(viewsets.ModelViewSet):
+    serializer_class = VerifySerializers
+    queryset = Member.objects.all()
+    permission_classes = (loginpermissions.BasePermission,)
     @action(detail=False, methods=['POST'])  # token header value decode
     def verify(self, request, *args, **kwargs):
         token = request.data.get('token')  # Json 데이터형식 헤더값 받아옴
