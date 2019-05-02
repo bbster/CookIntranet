@@ -11,4 +11,10 @@ class MemberSerializers(serializers.ModelSerializer):
 class LoginSerializers(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ("username", "password")
+        fields = ("username", "password",)
+
+
+class VerifySerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Member
+        fields = ("username",)
