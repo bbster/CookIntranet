@@ -1,10 +1,8 @@
 import jwt
 from django.contrib.auth import authenticate
 from rest_framework import viewsets, status
-from rest_framework.authentication import get_authorization_header
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework_jwt.authentication import jwt_decode_handler, BaseJSONWebTokenAuthentication
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 from authen.serializers import MemberSerializers
 from base.permissions import BasePermission
@@ -55,7 +53,7 @@ class MemberViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['POST'])  # token header value decode
     def decode_jwt_token(self, request, *args, **kwargs):
         token = request.data.get('token')  # Json 데이터형식 헤더값 받아옴
-        payload = jwt.decode(token, settings_base.SECRET_KEY, algorithms=['HS256']) # jwt token decode
+        payload = jwt.decode(token, settings_base.SECRET_KEY, algorithms=['HS256'])  # jwt token decode
         username = payload['username']  # decode 값 담기
         return Response({"반환완료": username}, status=200)
 
@@ -96,4 +94,3 @@ class MemberViewSet(viewsets.ModelViewSet):
     #         return Response("")
     #     else:  # POST
     #         return Response("")
-
