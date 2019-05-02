@@ -24,7 +24,7 @@ APPS_DIR = ROOT_DIR.path('cook_intra')
 SECRET_KEY = '$=x1$xg%7&4qwn7d#=13)2^jz!q=z@jabngd1hxy9!o*q^ye-f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 
     # My api
     'authen',
-    'feeds',
+    #'feeds',
 ]
 
 AUTH_USER_MODEL = 'authen.Member'

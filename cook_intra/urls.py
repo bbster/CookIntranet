@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # demo_project/urls.py
-from django.conf.urls import url
 from django.contrib import admin
 from django.urls import include, path
 from cook_intra import views
@@ -24,11 +23,10 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify
 urlpatterns = [
     path('admin/', admin.site.urls),  # 장고어드민
     path('api/auth/', include('authen.urls')),  # 회원관련
-    path('api/feeds/', include('feeds.urls')),
     path('api/token/', obtain_jwt_token),
     path('api/token/refresh/', refresh_jwt_token),
     path('api/token/verify/', verify_jwt_token),
-
+    #path('api/feeds/', include('feeds.urls')),
 ]
 
 urlpatterns += [

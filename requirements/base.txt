@@ -9,10 +9,15 @@ djangorestframework==3.9.2
 djangorestframework-jwt
 djangorestframework-simplejwt
 django-serializer
-simplejson
 django-cors-headers
+simplejson
+pillow
 psycopg2-binary
+crypto
 uwsgi
+ipython
+
+
 
 # for development
 flake8
