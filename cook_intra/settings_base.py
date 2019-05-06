@@ -44,7 +44,9 @@ INSTALLED_APPS = [
 
     # My api
     'authen',
-    #'feeds',
+    'feeds',
+    'schedular',
+
 ]
 
 AUTH_USER_MODEL = 'authen.Member'

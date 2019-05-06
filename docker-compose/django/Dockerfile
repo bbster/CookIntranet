@@ -22,9 +22,10 @@ COPY    ./authen/                   /home/server/authen/
 COPY    ./base/                     /home/server/base/
 COPY    ./cook_intra/               /home/server/cook_intra/
 COPY    ./feeds/                    /home/server/feeds/
+COPY    ./schedular/                /home/server/schedular/
 
 # client source
-COPY    ./client_build/             /home/server/client/
+#COPY    ./client_build/             /home/server/client/
 
 # service run scripts
 COPY    ./docker_entrypoint.sh    /home/server/

@@ -5,7 +5,6 @@ import os
 from django.shortcuts import render
 
 
-
 class VueAppView(View):
 
     def get(self, request):
