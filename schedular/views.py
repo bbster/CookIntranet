@@ -1,18 +1,18 @@
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 
-from base import feedpermissions
-from feeds.serializers import FeedSerializer
-from .models import Feed
+from base import schedulepermissions
+from schedular.serializers import ScheduleSerializer
+from .models import Schedules
 
 
-class FeedViewSet(ModelViewSet):
-    serializer_class = FeedSerializer
-    queryset = Feed.objects.all()
-    permission_classes = (feedpermissions.BasePermission,)
+class ScheduleViewSet(ModelViewSet):
+    serializer_class = ScheduleSerializer
+    queryset = Schedules.objects.all()
+    permission_classes = (schedulepermissions.BasePermission,)
 
     @action(detail=False, methods=['POST'])
-    def feedlist(self, request, *args, **kwargs):
+    def schedulelist(self, request, *args, **kwargs):
         param_created_at = request.query_params.get('created_at', None)  # request.query_params -> request.GET
         if param_created_at:
             splited = param_created_at.split(",")
@@ -24,11 +24,11 @@ class FeedViewSet(ModelViewSet):
                 self.queryset = self.queryset.filter(created_date__date=splited[0])
         return super().list(request, *args, **kwargs)
 
-    def createfeed(self, request, *args, **kwargs):
+    def createschedule(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
-    def updatefeed(self, request, *args, **kwargs):
+    def updateschedule(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
 
-    def deletefeed(self, request, *args, **kwargs):
+    def deleteschedule(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)

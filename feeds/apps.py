@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class FeedsConfig(AppConfig):
-    name = 'feeds'
+class FeedConfig(AppConfig):
+    name = 'Feed'
