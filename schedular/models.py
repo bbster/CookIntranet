@@ -10,5 +10,6 @@ class Schedules(models.Model):
     photo = models.ImageField(null=True, blank=True)  # 이미지 업로드 # 한장만 가능..
     saw = models.IntegerField(null=True, blank=True)  # 조회수
 
+
     def __str__(self):
         return self.title
