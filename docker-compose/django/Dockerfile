@@ -25,7 +25,7 @@ COPY    ./feeds/                    /home/server/feeds/
 COPY    ./schedular/                /home/server/schedular/
 
 # client source
-#COPY    ./client_build/             /home/server/client/
+COPY    ./client_build/             /home/server/client/
 
 # service run scripts
 COPY    ./docker_entrypoint.sh    /home/server/
