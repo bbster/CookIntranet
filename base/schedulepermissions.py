@@ -8,6 +8,12 @@ class BasePermission(DRFBasePermission):
     def has_permission(self, request, view):  # 사용자 지정 권한
         if view.action == "schedulelist":             # view.action  schedule_list
             return True  # permission True
+        if view.action == "createschedule":             # view.action  schedule_list
+            return True  # permission True
+        if view.action == "updateschedule":             # view.action  schedule_list
+            return True  # permission True
+        if view.action == "deleteschedule":             # view.action  schedule_list
+            return True  # permission True
         else:
             token = request.data.get("token", None)
             if not token:
