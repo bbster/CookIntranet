@@ -26,15 +26,17 @@ class ScheduleViewSet(ModelViewSet):
                 self.queryset = self.queryset.filter(created_date__date=splited[0])
         return super().list(request, *args, **kwargs)
 
+    @action(detail=False, methods=['POST'])
     def createschedule(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return super().create(request, *args, **kwargs)
 
+    @action(detail=False, methods=['POST'])
     def updateschedule(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
+        serializer = self.serializer_class(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @action(detail=False, methods=['POST'])
     def deleteschedule(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
