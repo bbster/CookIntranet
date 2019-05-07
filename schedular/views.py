@@ -13,7 +13,7 @@ class ScheduleViewSet(ModelViewSet):
     queryset = Schedules.objects.all()
     permission_classes = (schedulepermissions.BasePermission,)
 
-    @action(detail=False, methods=['POST'])
+    @action(detail=False, methods=['GET'])
     def schedulelist(self, request, *args, **kwargs):
         param_created_at = request.query_params.get('created_at', None)  # request.query_params -> request.GET
         if param_created_at:
