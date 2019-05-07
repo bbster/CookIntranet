@@ -1,3 +1,5 @@
+from django.shortcuts import redirect
+from requests import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 
@@ -30,8 +32,16 @@ class FeedViewSet(ModelViewSet):
 
     @action(detail=False, methods=['POST'])
     def updatefeed(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
+        return super().create(request, *args, **kwargs)
 
     @action(detail=False, methods=['POST'])
-    def deletefeed(self, request, *args, **kwargs):
-        return super().destroy(request, *args, **kwargs)
+    def deletefeed(self, request, pk=None, *args, **kwargs):
+        return super().destroy(request, pk, *args, **kwargs)
+
+    # def update(self, pk, request, *args, **kwargs):
+    #     id = Feed.objects.pop('id', False)
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance, data=request.data, pk=id)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_update(serializer)
+    #     return Response(serializer.data)

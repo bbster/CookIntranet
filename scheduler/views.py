@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 
 from base import schedulepermissions
-from schedular.serializers import ScheduleSerializer
+from scheduler.serializers import ScheduleSerializer
 from .models import Schedules
 
 
