@@ -12,13 +12,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Feed',
+            name='Schedules',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(blank=None, max_length=500)),
-                ('content', models.TextField()),
-                ('create_at', models.DateField(auto_now_add=True)),
+                ('created_at', models.DateField(auto_now_add=True)),
                 ('update_at', models.DateTimeField(auto_now=True)),
+                ('title', models.CharField(blank=None, max_length=500)),
+                ('detail', models.TextField()),
+                ('money', models.CharField(blank=None, max_length=30)),
                 ('photo', models.ImageField(blank=True, null=True, upload_to='')),
                 ('saw', models.IntegerField(blank=True, null=True)),
             ],
