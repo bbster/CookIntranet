@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'schedular',
 ]
 
-AUTH_USER_MODEL = 'authen.Member'
+# AUTH_USER_MODEL = 'authen.Member'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
