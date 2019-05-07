@@ -19,7 +19,7 @@ class BasePermission(DRFBasePermission):
             #     return True
             # except Exception as e:
             #     return False
-            return true
+            return True
 
         elif view.action == "updatefeed":  # view.decode_jwt_token 조인
             token = request.data.get("token", None)
