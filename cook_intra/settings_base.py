@@ -46,10 +46,7 @@ INSTALLED_APPS = [
     'authen',
     'feeds',
     'schedular',
-
 ]
-
-
 
 AUTH_USER_MODEL = 'authen.Member'
 
