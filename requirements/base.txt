@@ -13,6 +13,7 @@ django-cors-headers
 simplejson
 pillow
 psycopg2-binary
+environ
 crypto
 uwsgi
 ipython
