@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from base import feedpermissions
 from feeds.serializers import FeedSerializer
-from .models import Feed
+from feeds.models import Feed
 
 
 class FeedViewSet(ModelViewSet):

@@ -6,7 +6,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cook_intra.settings')
 
 
 def test():
-    from feeds.models import Feed
+    from feeds_test.models import Feed
     feeds = Feed.objects.all()
     print(feeds)
 
