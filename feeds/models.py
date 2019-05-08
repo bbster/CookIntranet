@@ -21,4 +21,3 @@ class Feed(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.allowed_filter = ['id', 'created', 'updated', 'title', 'content', 'photo']
-        self.default_order_by = 'id'
