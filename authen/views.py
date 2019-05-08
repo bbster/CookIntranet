@@ -8,6 +8,7 @@ from authen.serializers import MemberSerializers, LoginSerializers, VerifySerial
 from base import basepermissions, loginpermissions
 from cook_intra import settings_base
 from .models import Member
+from django.http import HttpResponseBadRequest
 
 
 class MemberViewSet(viewsets.ModelViewSet):
@@ -36,10 +37,6 @@ class MemberViewSet(viewsets.ModelViewSet):
         data.update({"msg": "회원가입에 성공하였습니다."})
         return Response(data, status=status.HTTP_201_CREATED)
 
-    @action(detail=False, methods=['get'])
-    def test(self, request, *args, **kwargs):
-        return Response({"msg": "OK"}, status=200)
-
 
 class LoginViewSet(viewsets.ModelViewSet):
 
@@ -59,7 +56,7 @@ class LoginViewSet(viewsets.ModelViewSet):
             # JWT TOKEN RESPONSE
             return Response({"token": token}, status=200)
         else:
-            return Response({'Error': "ERROR"}, status=400)
+            return Response({"Error": "ERROR"}, status=400)
 
 
 class VerifyViewSet(viewsets.ModelViewSet):
@@ -69,6 +66,9 @@ class VerifyViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['POST'])  # token header value decode
     def verify(self, request, *args, **kwargs):
         token = request.data.get('token')  # Json 데이터형식 헤더값 받아옴
-        payload = jwt.decode(token, settings_base.SECRET_KEY, algorithms=['HS256'])  # jwt token decode
+        try:
+            payload = jwt.decode(token, settings_base.SECRET_KEY, algorithms=['HS256'])  # jwt token decode
+        except jwt.DecodeError:
+            raise HttpResponseBadRequest
         user = payload['username']  # decode 값 담기
         return Response({"token": token, "username": user}, status=200)
