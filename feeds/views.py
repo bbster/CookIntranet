@@ -1,6 +1,3 @@
-from django.http import Http404
-from requests import Response
-from rest_framework import status, filters
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from base import feedpermissions
@@ -29,8 +26,8 @@ class FeedViewSet(ModelViewSet):
         #     print
 
     @action(detail=False, methods=['post'])
-    def createfeed(*args, **kwargs):
-        return super().create(*args, **kwargs)
+    def createfeed(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
 
     @action(detail=False, methods=['post'])
     def updatefeed(self, request, *args, **kwargs):
