@@ -6,7 +6,7 @@ from feeds.models import Feed
 
 
 class FeedViewSet(ModelViewSet):
-    queryset = Feed.objects.all()
+    queryset = Feed.objects.all().order_by('-id')
     serializer_class = FeedSerializer
     permission_classes = (feedpermissions.BasePermission,)
 
@@ -22,8 +22,6 @@ class FeedViewSet(ModelViewSet):
             else:
                 self.queryset = self.queryset.filter(created_date__date=splited[0])
         return super().list(request, *args, **kwargs)
-        # for feeds in Feed.objects.all():
-        #     print
 
     @action(detail=False, methods=['post'])
     def createfeed(self, request, *args, **kwargs):
