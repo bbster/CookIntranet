@@ -14,9 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # demo_project/urls.py
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from cook_intra import views
+from cook_intra import views, settings_base
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 
@@ -28,9 +29,10 @@ urlpatterns = [
     path('api/token/', obtain_jwt_token),
     path('api/token/refresh/', refresh_jwt_token),
     path('api/token/verify/', verify_jwt_token),
-    #path('api/feeds/', include('feeds.urls')),
 ]
 
 urlpatterns += [
     path('', views.VueAppView.as_view()),
 ]
+
+urlpatterns += static(settings_base.MEDIA_URL, document_root=settings_base.MEDIA_ROOT)
