@@ -28,7 +28,6 @@ class FeedViewSet(ModelViewSet):
         # for feeds in Feed.objects.all():
         #     print
 
-
     @action(detail=False, methods=['post'])
     def createfeed(*args, **kwargs):
         return super().create(*args, **kwargs)
