@@ -24,7 +24,7 @@ class FeedViewSet(ModelViewSet):
                 self.queryset = self.queryset.filter(created_date__range=(start_date, end_date))
             else:
                 self.queryset = self.queryset.filter(created_date__date=splited[0])
-        # return super().list(request, *args, **kwargs)
+        return super().list(request, *args, **kwargs)
         # for feeds in Feed.objects.all():
         #     print
 
