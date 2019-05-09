@@ -4,11 +4,7 @@ from authen import models as user_models
 
 class Feed(models.Model):
     id = models.AutoField(primary_key=True)
-    created_id = models.ForeignKey(
-        user_models.Member,
-        on_delete=models.CASCADE,
-        null=True
-    )
+    creator = models.ForeignKey(user_models.Member, on_delete=models.CASCADE, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=None)  # 게시판 작성날짜
     updated = models.DateTimeField(auto_now=True, blank=None)  # 수정한 날짜
     title = models.CharField(max_length=500, blank=None, null=False)  # 게시판 제목
@@ -20,4 +16,4 @@ class Feed(models.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.allowed_filter = ['id', 'created', 'updated', 'title', 'content', 'photo']
+        self.allowed_filter = ['id', 'creator', 'created', 'updated', 'title', 'content', 'photo']

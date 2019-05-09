@@ -23,7 +23,6 @@ class MemberViewSet(viewsets.ModelViewSet):
         # 회원가입
         username = request.data.get("username", None)
         password = request.data.get("password", None)
-
         if not username:
             return Response({"msg": "'username' 파라미터는 필수값입니다."})
         if not password:
@@ -48,6 +47,7 @@ class LoginViewSet(viewsets.ModelViewSet):
     def login(self, request, *args, **kwargs):
         username = request.data.get("username", None)
         password = request.data.get("password", None)
+
         user = authenticate(username=username, password=password)
         # LOGIN 할때 JWT TOKEN 발급
         if user is not None:
@@ -71,4 +71,5 @@ class VerifyViewSet(viewsets.ModelViewSet):
         except jwt.DecodeError:
             raise HttpResponseBadRequest
         user = payload['username']  # decode 값 담기
+        #index 값 같이 반환 추가해야
         return Response({"token": token, "username": user}, status=200)

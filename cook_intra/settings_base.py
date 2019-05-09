@@ -124,6 +124,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
     'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
     }
 
 REST_USE_JWT = True
@@ -147,7 +148,7 @@ JWT_AUTH = {
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
     'JWT_ALLOW_REFRESH': True,

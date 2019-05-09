@@ -8,11 +8,11 @@ django-rest-auth==0.9.5
 djangorestframework==3.9.2
 djangorestframework-jwt
 djangorestframework-simplejwt
-django-serializer
+psycopg2-binary
 django-cors-headers
+django-filter
 simplejson
 pillow
-psycopg2-binary
 environ
 crypto
 uwsgi
