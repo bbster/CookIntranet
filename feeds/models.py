@@ -16,7 +16,7 @@ class Feed(models.Model):
     title = models.CharField(max_length=500, blank=None, null=False)  # 게시판 제목
     content = models.TextField()  # 게시판 제목
     priority = models.CharField(max_length=5, choices=PRIORITY_CHOICES)
-    photo = models.ImageField(null=True, blank=True)  # 이미지 필드
+    photo = models.ImageField(upload_to='images/', null=True, blank=True)  # 이미지 필드
 
     def __str__(self):
         return self.title
