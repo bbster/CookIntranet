@@ -2,6 +2,13 @@ from django.db import models
 from authen import models as user_models
 
 
+PRIORITY_CHOICES = (
+        ('긴급', '긴급'),
+        ('중요', '중요'),
+        ('보통', '보통'),
+    )
+
+
 class Feed(models.Model):
     id = models.AutoField(primary_key=True)
     creator = models.ForeignKey(user_models.Member, on_delete=models.CASCADE, null=True)
@@ -9,6 +16,7 @@ class Feed(models.Model):
     updated = models.DateTimeField(auto_now=True, blank=None)  # 수정한 날짜
     title = models.CharField(max_length=500, blank=None, null=False)  # 게시판 제목
     content = models.TextField()  # 게시판 제목
+    priority = models.CharField(max_length=5, choices=PRIORITY_CHOICES)
     photo = models.ImageField(null=True, blank=True)  # 이미지 필드
 
     def __str__(self):
@@ -16,4 +24,4 @@ class Feed(models.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.allowed_filter = ['id', 'creator', 'created', 'updated', 'title', 'content', 'photo']
+        self.allowed_filter = ['id', 'creator', 'created', 'updated', 'title', 'content', 'priority', 'photo']
