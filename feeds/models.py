@@ -4,12 +4,10 @@ from cook_intra import settings_base
 PRIORITY_CHOICES = (
         ('긴급', '긴급'),
         ('중요', '중요'),
-        ('보통', '보통'),
-    )
+        ('보통', '보통'),)
 
 
 class Feed(models.Model):
-    id = models.AutoField(primary_key=True)
     creator = models.ForeignKey(settings_base.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=None)  # 게시판 작성날짜
@@ -25,9 +23,9 @@ class Feed(models.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.allowed_filter = ['id', 'creator', 'created', 'updated', 'title', 'content', 'priority', 'photo', 'username']
+        self.allowed_filter = ['creator', 'created', 'updated', 'title', 'content', 'priority', 'photo', 'username']
 
     def save(self, *args, **kwargs):  #
-        if self.creator: #
+        if self.creator:
             self.username = self.creator.username
         return super().save(*args, **kwargs)  # real save
