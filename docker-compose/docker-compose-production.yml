@@ -6,5 +6,3 @@ services:
       - DEPLOYMENT_LEVEL=production
     ports:
       - "80:80"
-    volumes:
-      - ~/media/: /home/server/media/images
