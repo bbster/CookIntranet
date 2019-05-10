@@ -28,12 +28,12 @@ class FeedViewSet(ModelViewSet):
     @action(detail=False, methods=['post'])
     def createfeed(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
-        notifications_title = request.data['title']
         header = {"Content-Type": "application/json; charset=utf-8",
                   "Authorization": "Basic ZTNmMDQ2YjUtMDc2NS00M2ZiLWJhNjYtMjkxY2EyMTljMjMy"}
         payload = {"app_id": "1d318c98-5b25-480c-89d9-5c5d265ffb53",
                    "included_segments": ["All"],
-                   "contents": {"en": "New Feed", "ko": notifications_title},
+                   "contents": {"en": "New Feed", "ko": request.data['title']},
+                   "headings": {"en": "New Feed", "ko": request.data['username']},
                    "url": "http://ec2-13-209-6-77.ap-northeast-2.compute.amazonaws.com/private/feeds"}
         req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
         print(req.status_code, req.reason)
