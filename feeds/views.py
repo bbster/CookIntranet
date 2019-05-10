@@ -1,6 +1,5 @@
 import requests
 import json
-from requests import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from base import feedpermissions
