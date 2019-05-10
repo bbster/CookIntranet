@@ -10,7 +10,7 @@ from .models import Schedules
 
 class ScheduleViewSet(ModelViewSet):
     serializer_class = ScheduleSerializer
-    queryset = Schedules.objects.all()
+    queryset = Schedules.objects.all().order_by('id')
     permission_classes = (schedulepermissions.BasePermission,)
 
     @action(detail=False, methods=['GET'])

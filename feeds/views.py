@@ -25,6 +25,7 @@ class FeedViewSet(ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def createfeed(self, request, *args, **kwargs):
+
         return super().create(request, *args, **kwargs)
 
     @action(detail=False, methods=['post'])

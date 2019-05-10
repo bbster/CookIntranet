@@ -19,11 +19,10 @@ COPY    ./manage.py                 /home/server/
 COPY    ./.vscode/                  /home/server/.vscode/
 COPY    ./_nuxt/                    /home/server/_nuxt/
 COPY    ./authen/                   /home/server/authen/
-COPY    ./base/                     /home/server/base/
+COPY    ./base/                     /home/server/base/def
 COPY    ./cook_intra/               /home/server/cook_intra/
 COPY    ./feeds/                    /home/server/feeds/
 COPY    ./scheduler/                /home/server/scheduler/
-#COPY    ./media/                    /home/server/media/
 
 # client source
 COPY    ./client_build/             /home/server/client/

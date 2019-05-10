@@ -72,5 +72,5 @@ class VerifyViewSet(viewsets.ModelViewSet):
             raise HttpResponseBadRequest
         user = payload['username']  # decode 값 담기
         id = payload['user_id']
-        #index 값 같이 반환 추가해야
+        # index 값 같이 반환 추가해야
         return Response({"token": token, "username": user, "id": id}, status=200)
