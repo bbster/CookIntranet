@@ -71,5 +71,6 @@ class VerifyViewSet(viewsets.ModelViewSet):
         except jwt.DecodeError:
             raise HttpResponseBadRequest
         user = payload['username']  # decode 값 담기
+        id = payload['user_id']
         #index 값 같이 반환 추가해야
-        return Response({"token": token, "username": user}, status=200)
+        return Response({"token": token, "username": user, "id": id}, status=200)
