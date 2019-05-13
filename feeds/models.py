@@ -23,7 +23,15 @@ class Feed(models.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.allowed_filter = ['id', 'creator', 'created', 'updated', 'title', 'content', 'priority', 'photo', 'username']
+        self.allowed_filter = ['id', 'creator', 'created', 'updated',
+                               'title', 'content', 'priority', 'photo', 'username']
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        only_feed = str(self.request.query_params.get('Feed')).lower()
+        if only_feed in ['true', '1']:
+            return qs.filter(returned_isnull=True)
+        return qs
 
     def save(self, *args, **kwargs):  #
         if self.creator:
