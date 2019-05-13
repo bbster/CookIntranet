@@ -1,6 +1,9 @@
 import requests
 import json
-from rest_framework.decorators import action
+
+from requests import Response
+from rest_framework import status
+from rest_framework.decorators import action, detail_route
 from rest_framework.viewsets import ModelViewSet
 from base import feedpermissions
 from feeds.serializers import FeedSerializer
@@ -24,6 +27,12 @@ class FeedViewSet(ModelViewSet):
             else:
                 self.queryset = self.queryset.filter(created_date__date=splited[0])
         return super().list(request, *args, **kwargs)
+    
+    @action(detail=False, methods=['GET'])
+    def feedretrieve(self, request, pk=None):
+        queryset = Feed.objects.all()
+        serializer = FeedSerializer(queryset, many=True)
+        return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
     def createfeed(self, request, *args, **kwargs):
@@ -38,9 +47,18 @@ class FeedViewSet(ModelViewSet):
         print(req.status_code, req.reason)
         return response
 
-    @action(detail=False, methods=['post'])
-    def updatefeed(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
+    # @detail_route(methods=['post'])
+    # def updatefeed(self, request, creator_id,  *args, **kwargs):
+    #     id = self.get_object(creator_id)
+    #     serializer = FeedSerializer(id, data=request.data)
+    #     print(id, creator_id)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def deletefeed(self, request, *args, **kwargs):
-        return super().destroy(request, *args, **kwargs)
+    # @detail_route(methods=['post'])
+    # def deletefeed(self, request, pk, format=None):
+    #     feed = self.get_object(pk)
+    #     feed.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)

@@ -15,25 +15,25 @@ class BasePermission(DRFBasePermission):
         if view.action == "deleteschedule":             # view.action  schedule_list
             return True  # permission True
         else:
-            token = request.data.get("token", None)
-            if not token:
-                return False
-            try:
-                user_info = jwt.decode(token, settings_base.SECRET_KEY, algorithms=['HS256'])  # jwt token decode
-                user = Member.objects.get(user_info["username"])
-                request.user = user
+            # token = request.data.get("token", None)
+            # if not token:
+            #     return False
+            # try:
+            #     user_info = jwt.decode(token, settings_base.SECRET_KEY, algorithms=['HS256'])  # jwt token decode
+            #     user = Member.objects.get(user_info["username"])
+            #     request.user = user
+            #     return True
+            # except Exception as e:
                 return True
-            except Exception as e:
-                return False
 
-    def has_object_permission(self, request, view, obj):
-        token = request.data.get("token", None)
-        if not token:
-            return False
-        try:
-            user_info = jwt.decode(token, settings_base.SECRET_KEY, algorithms=['HS256'])  # jwt token decode
-            user = Member.objects.get(user_info["username"])
-            request.user = user
-            return True
-        except Exception as e:
-            return False
+    # def has_object_permission(self, request, view, obj):
+    #     token = request.data.get("token", None)
+    #     if not token:
+    #         return False
+    #     try:
+    #         user_info = jwt.decode(token, settings_base.SECRET_KEY, algorithms=['HS256'])  # jwt token decode
+    #         user = Member.objects.get(user_info["username"])
+    #         request.user = user
+    #         return True
+    #     except Exception as e:
+    #         return False
