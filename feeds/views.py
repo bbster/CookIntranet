@@ -1,9 +1,7 @@
 import requests
 import json
-
-from requests import Response
-from rest_framework import status
-from rest_framework.decorators import action, detail_route
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from base import feedpermissions
 from feeds.serializers import FeedSerializer
@@ -13,6 +11,9 @@ from feeds.models import Feed
 class FeedViewSet(ModelViewSet):
     queryset = Feed.objects.all().order_by('-id')
     serializer_class = FeedSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ("id", "creator", "title", "content", "priority", "username")
+    search_fields = ("id", "creator", "title", "content", "priority", "username")
     permission_classes = (feedpermissions.BasePermission,)
 
     @action(detail=False, methods=['GET'])
@@ -27,12 +28,6 @@ class FeedViewSet(ModelViewSet):
             else:
                 self.queryset = self.queryset.filter(created_date__date=splited[0])
         return super().list(request, *args, **kwargs)
-    
-    @action(detail=False, methods=['GET'])
-    def feedretrieve(self, request, pk=None):
-        queryset = Feed.objects.all()
-        serializer = FeedSerializer(queryset, many=True)
-        return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
     def createfeed(self, request, *args, **kwargs):
@@ -47,8 +42,8 @@ class FeedViewSet(ModelViewSet):
         print(req.status_code, req.reason)
         return response
 
-    # @detail_route(methods=['post'])
-    # def updatefeed(self, request, creator_id,  *args, **kwargs):
+    # def updatefeed(self, request, *args, **kwargs):
+    # return super().list(request, *args, **kwargs)
     #     id = self.get_object(creator_id)
     #     serializer = FeedSerializer(id, data=request.data)
     #     print(id, creator_id)
