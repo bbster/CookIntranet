@@ -12,8 +12,8 @@ class FeedViewSet(ModelViewSet):
     queryset = Feed.objects.all().order_by('-id')
     serializer_class = FeedSerializer
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ("id", "creator", "title", "content", "priority", "username")
-    search_fields = ("id", "creator", "title", "content", "priority", "username")
+    filterset_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
+    search_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     permission_classes = (feedpermissions.BasePermission,)
 
     @action(detail=False, methods=['GET'])
@@ -24,9 +24,9 @@ class FeedViewSet(ModelViewSet):
             if len(splited) == 2:
                 start_date = splited[0]
                 end_date = splited[0]
-                self.queryset = self.queryset.filter(created_date__range=(start_date, end_date))
+                self.queryset = self.queryset.filter(created__range=(start_date, end_date))
             else:
-                self.queryset = self.queryset.filter(created_date__date=splited[0])
+                self.queryset = self.queryset.filter(created__date=splited[0])
         return super().list(request, *args, **kwargs)
 
     @action(detail=False, methods=['post'])
