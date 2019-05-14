@@ -16,7 +16,12 @@ class Schedules(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):  #
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.allowed_filter = ['id', 'creator', 'created', 'updated',
+                               'title', 'detail', 'photo', 'username']
+
+    def save(self, *args, **kwargs):
         if self.creator:
             self.username = self.creator.username
         return super().save(*args, **kwargs)  # real save
