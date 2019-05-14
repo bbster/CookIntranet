@@ -188,6 +188,6 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'django_static')
 STATIC_URL = '/django_static/'
-# ENV_PATH = os.path.abspath(os.path.dirname('media'))
-# MEDIA_ROOT = os.path.join(ENV_PATH, 'media/')
-# MEDIA_URL = '/media/'
+ENV_PATH = os.path.abspath(os.path.dirname('media'))
+MEDIA_ROOT = os.path.join(ENV_PATH, 'media/')
+MEDIA_URL = '/media/'
