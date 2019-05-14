@@ -4,7 +4,7 @@ MAINTAINER LEE Ji Chan bbster12@gmail.com
 
 # create server folder
 WORKDIR /home/server/
-#RUN mkdir /home/server/media/
+RUN mkdir /home/server/media/
 
 # service for web server
 RUN apt-get update
