@@ -4,7 +4,7 @@ MAINTAINER LEE Ji Chan bbster12@gmail.com
 
 # create server folder
 WORKDIR /home/server/
-RUN mkdir /home/server/media/
+#RUN mkdir /home/server/media/
 
 # service for web server
 RUN apt-get update
@@ -25,7 +25,7 @@ COPY    ./base/                     /home/server/base/
 COPY    ./cook_intra/               /home/server/cook_intra/
 COPY    ./feeds/                    /home/server/feeds/
 COPY    ./scheduler/                /home/server/scheduler/
-COPY    ./media/                    /home/server/media/
+#COPY    ./media/                    /home/server/media/
 
 # client source
 COPY    ./client_build/             /home/server/client/
