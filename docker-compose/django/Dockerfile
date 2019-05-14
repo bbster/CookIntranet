@@ -15,6 +15,7 @@ RUN  pip install --upgrade pip
 RUN  pip install -r requirements/base.txt
 
 # server source
+RUN     mkdir                       /home/server/media/
 COPY    ./manage.py                 /home/server/
 COPY    ./.vscode/                  /home/server/.vscode/
 COPY    ./_nuxt/                    /home/server/_nuxt/
@@ -23,6 +24,7 @@ COPY    ./base/                     /home/server/base/
 COPY    ./cook_intra/               /home/server/cook_intra/
 COPY    ./feeds/                    /home/server/feeds/
 COPY    ./scheduler/                /home/server/scheduler/
+COPY    ./media/                    /home/server/media/
 
 # client source
 COPY    ./client_build/             /home/server/client/

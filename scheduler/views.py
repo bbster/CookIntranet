@@ -1,8 +1,6 @@
-from requests import Response
-from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
-
 from base import schedulepermissions
 from scheduler.serializers import ScheduleSerializer
 from .models import Schedules
@@ -10,7 +8,10 @@ from .models import Schedules
 
 class ScheduleViewSet(ModelViewSet):
     serializer_class = ScheduleSerializer
-    queryset = Schedules.objects.all().order_by('id')
+    queryset = Schedules.objects.all().order_by('-id')
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ("creator", "created", "updated", "title", "detail", "username")
+    search_fields = ("creator", "created", "updated", "title", "detail", "username")
     permission_classes = (schedulepermissions.BasePermission,)
 
     @action(detail=False, methods=['GET'])
@@ -30,13 +31,13 @@ class ScheduleViewSet(ModelViewSet):
     def createschedule(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
-    @action(detail=False, methods=['POST'])
-    def updateschedule(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=['POST'])
-    def deleteschedule(self, request, *args, **kwargs):
-        return super().destroy(request, *args, **kwargs)
+    # @action(detail=False, methods=['POST'])
+    # def updateschedule(self, request, *args, **kwargs):
+    #     serializer = self.serializer_class(data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    #
+    # @action(detail=False, methods=['POST'])
+    # def deleteschedule(self, request, *args, **kwargs):
+    #     return super().destroy(request, *args, **kwargs)
