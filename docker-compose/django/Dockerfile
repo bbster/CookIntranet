@@ -4,6 +4,7 @@ MAINTAINER LEE Ji Chan bbster12@gmail.com
 
 # create server folder
 WORKDIR /home/server/
+RUN mkdir /home/server/media/
 
 # service for web server
 RUN apt-get update
@@ -15,7 +16,7 @@ RUN  pip install --upgrade pip
 RUN  pip install -r requirements/base.txt
 
 # server source
-RUN     mkdir                       /home/server/media/
+
 COPY    ./manage.py                 /home/server/
 COPY    ./.vscode/                  /home/server/.vscode/
 COPY    ./_nuxt/                    /home/server/_nuxt/

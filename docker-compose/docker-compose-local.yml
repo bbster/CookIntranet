@@ -6,4 +6,4 @@ services:
     environment:
       - DEPLOYMENT_LEVEL=local
     ports:
-      - "8080:80"
+      - "8000:80"
