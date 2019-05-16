@@ -28,7 +28,7 @@ class Feed(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.allowed_filter = ['id', 'creator', 'created', 'updated',
-                               'title', 'content', 'priority', 'photo', 'username']
+                               'title', 'content', 'priority', 'photo', 'username', 'message', 'status']
 
     def save(self, *args, **kwargs):  #
         if self.creator:
