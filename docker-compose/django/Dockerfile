@@ -12,7 +12,7 @@ RUN apt-get install -y build-essential nginx supervisor postgresql-client g++ au
 
 # Python Packages
 COPY ./requirements/base.txt/   /home/server/requirements/
-RUN  pip install -r requirements/base.txt -c constraints.txt
+RUN  pip install -r requirements/base.txt
 
 # server source
 
