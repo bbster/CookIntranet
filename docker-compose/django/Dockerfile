@@ -11,6 +11,7 @@ RUN apt-get update
 RUN apt-get install -y build-essential nginx supervisor postgresql-client g++ automake1.11 perl libffi-dev vim
 
 # Python Packages
+pip install --upgrade pip
 COPY ./requirements/base.txt/   /home/server/requirements/
 RUN  pip install -r requirements/base.txt
 
