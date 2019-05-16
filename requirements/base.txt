@@ -17,7 +17,6 @@ environ
 crypto
 uwsgi
 ipython
-urllib3==1.25
 
 
 
