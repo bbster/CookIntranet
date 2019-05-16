@@ -32,10 +32,6 @@ class FeedViewSet(ModelViewSet):
                 self.queryset = self.queryset.filter(created__range=(start_date, end_date))
             else:
                 self.queryset = self.queryset.filter(created__date=splited[0])
-                # data = Feed.objects.all()
-                # data = [{'name': person.user.username, 'status': person.status, 'message': person.message,
-                #         'id': person.id} for person in data]
-                # return JsonResponse(data, safe=False)
         return super().list(request, *args, **kwargs)
 
     @action(detail=False, methods=['post'])
