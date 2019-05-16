@@ -8,9 +8,10 @@ django-rest-auth==0.9.5
 djangorestframework==3.9.2
 djangorestframework-jwt
 djangorestframework-simplejwt
-psycopg2-binary
 django-cors-headers
 django-filter
+psycopg2-binary
+requests
 simplejson
 pillow
 environ
@@ -19,4 +20,3 @@ uwsgi
 ipython
 
 # for development
-flake8
