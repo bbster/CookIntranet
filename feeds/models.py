@@ -18,6 +18,10 @@ class Feed(models.Model):
     photo = models.ImageField(upload_to='images/', null=True, blank=True)  # 이미지 필드
     username = models.CharField(max_length=100, blank=True, null=True)
 
+    # pusher modeling
+    message = models.CharField(blank=True, null=True, max_length=225)
+    status = models.CharField(blank=True, null=True, max_length=225)
+
     def __str__(self):
         return self.title
 

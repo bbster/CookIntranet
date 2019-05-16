@@ -1,6 +1,7 @@
 import requests
 import json
 from django.db import transaction
+from django.http import JsonResponse, HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
@@ -18,7 +19,7 @@ class FeedViewSet(ModelViewSet):
     permission_classes = (feedpermissions.BasePermission,)
 
     @action(detail=False, methods=['GET'])
-    def feedlist(self, request, *args, **kwargs):
+    def feedlist(self, request):
         param_created_at = request.query_params.get('created', None)  # request.query_params -> request.GET
         if param_created_at:
             splited = param_created_at.split(",")  # 문자열 자름 #
@@ -28,7 +29,13 @@ class FeedViewSet(ModelViewSet):
                 self.queryset = self.queryset.filter(created__range=(start_date, end_date))
             else:
                 self.queryset = self.queryset.filter(created__date=splited[0])
-        return super().list(request, *args, **kwargs)
+                data = Feed.objects.all()
+                # loop through the data and create a new list from them. Alternatively, we can serialize the whole object and send the serialized response
+                data = [
+                    {'name': person.user.username, 'status': person.status, 'message': person.message, 'id': person.id}
+                    for person in data]
+                # return a json response of the broadcasted messgae
+                return JsonResponse(data, safe=False)
 
     @action(detail=False, methods=['post'])
     def createfeed(self, request, *args, **kwargs):
@@ -41,7 +48,30 @@ class FeedViewSet(ModelViewSet):
                    "url": "http://ec2-13-209-6-77.ap-northeast-2.compute.amazonaws.com/private/feeds"}
         req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
         print(req.status_code, req.reason)
-        return response
+
+        message = Feed(message=request.POST.get('message', ''), status='', user=request.user);
+        message.save()
+        # create an dictionary from the message instance so we can send only required details to pusher
+        message = {'name': message.user.username, 'status': message.status, 'message': message.message,
+                   'id': message.id}
+        # trigger the message, channel and event to pusher
+        pusher.trigger(u'a_channel', u'an_event', message)
+        # return a json response of the broadcasted message
+        return JsonResponse(message, safe=False)
+
+    def delivered(request, id):
+        message = Feed.objects.get(pk=id)
+        # verify it is not the same user who sent the message that wants to trigger a delivered event
+        if request.user.id != message.user.id:
+            socket_id = request.POST.get('socket_id', '')
+            message.status = 'Delivered'
+            message.save()
+            message = {'name': message.user.username, 'status': message.status, 'message': message.message,
+                       'id': message.id}
+            pusher.trigger(u'a_channel', u'delivered_message', message, socket_id)
+            return HttpResponse('ok')
+        else:
+            return HttpResponse('Awaiting Delivery')
 
     # def updatefeed(self, request, *args, **kwargs):
     # return super().list(request, *args, **kwargs)
