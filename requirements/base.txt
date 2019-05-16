@@ -11,7 +11,9 @@ djangorestframework-simplejwt
 django-cors-headers
 django-filter
 psycopg2-binary
+pusher
 requests
+urllib3==1.21.1
 simplejson
 pillow
 environ
