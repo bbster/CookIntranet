@@ -18,8 +18,5 @@ crypto
 uwsgi
 ipython
 
-
-
-
 # for development
 flake8

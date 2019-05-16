@@ -19,7 +19,6 @@ class FeedViewSet(ModelViewSet):
     filterset_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     search_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     permission_classes = (feedpermissions.BasePermission,)
-    # pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9955e8f46a2c0', cluster=u'ap3')
 
     @action(detail=False, methods=['GET'])
     def feedlist(self, request, *args, **kwargs):
@@ -46,30 +45,6 @@ class FeedViewSet(ModelViewSet):
         req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
         print(req.status_code, req.reason)
         return response
-
-        # message = Feed(message=request.POST.get('message', ''), status='', user=request.user)
-        # message.save()
-        # # create an dictionary from the message instance so we can send only required details to pusher
-        # message = {'name': message.user.username, 'status': message.status, 'message': message.message,
-        #            'id': message.id}
-        # # trigger the message, channel and event to pusher
-        # pusher.trigger(u'a_channel', u'an_event', message)
-        # # return a json response of the broadcasted message
-        # return HttpResponse(json.dumps(message), content_type="application/json", safe=False)
-    #
-    # @csrf_exempt
-    # def delivered(self, request, id):
-    #     message = Feed.objects.get(pk=id)
-    #     # verify it is not the same user who sent the message that wants to trigger a delivered event
-    #     if request.user.id != message.user.id:
-    #         socket_id = request.POST.get('socket_id', '')
-    #         message.status = 'Delivered'
-    #         message.save()
-    #         message = {'name': message.user.username, 'status': message.status, 'message': message.message, 'id': message.id}
-    #         pusher.trigger(u'a_channel', u'delivered_message', message, socket_id)
-    #         return HttpResponse('ok')
-    #     else:
-    #         return HttpResponse('Awaiting Delivery')
 
     # def updatefeed(self, request, *args, **kwargs):
     # return super().list(request, *args, **kwargs)
