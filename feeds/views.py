@@ -56,7 +56,7 @@ class FeedViewSet(ModelViewSet):
     #         return Response(serializer.data)
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # @detail_route(methods=['post'])
+
     # def deletefeed(self, request, pk, format=None):
     #     feed = self.get_object(pk)
     #     feed.delete()
