@@ -1,11 +1,15 @@
 import requests
 import json
+from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from base import feedpermissions
 from feeds.serializers import FeedSerializer
-from feeds.models import Feed
+from django.views.decorators.csrf import csrf_exempt
+from pusher import Pusher
+from .models import *
+from django.http import JsonResponse, HttpResponse
 
 
 class FeedViewSet(ModelViewSet):
@@ -15,6 +19,7 @@ class FeedViewSet(ModelViewSet):
     filterset_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     search_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     permission_classes = (feedpermissions.BasePermission,)
+    # pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9955e8f46a2c0', cluster=u'ap3')
 
     @action(detail=False, methods=['GET'])
     def feedlist(self, request, *args, **kwargs):
@@ -42,6 +47,30 @@ class FeedViewSet(ModelViewSet):
         print(req.status_code, req.reason)
         return response
 
+        # message = Feed(message=request.POST.get('message', ''), status='', user=request.user)
+        # message.save()
+        # # create an dictionary from the message instance so we can send only required details to pusher
+        # message = {'name': message.user.username, 'status': message.status, 'message': message.message,
+        #            'id': message.id}
+        # # trigger the message, channel and event to pusher
+        # pusher.trigger(u'a_channel', u'an_event', message)
+        # # return a json response of the broadcasted message
+        # return HttpResponse(json.dumps(message), content_type="application/json", safe=False)
+    #
+    # @csrf_exempt
+    # def delivered(self, request, id):
+    #     message = Feed.objects.get(pk=id)
+    #     # verify it is not the same user who sent the message that wants to trigger a delivered event
+    #     if request.user.id != message.user.id:
+    #         socket_id = request.POST.get('socket_id', '')
+    #         message.status = 'Delivered'
+    #         message.save()
+    #         message = {'name': message.user.username, 'status': message.status, 'message': message.message, 'id': message.id}
+    #         pusher.trigger(u'a_channel', u'delivered_message', message, socket_id)
+    #         return HttpResponse('ok')
+    #     else:
+    #         return HttpResponse('Awaiting Delivery')
+
     # def updatefeed(self, request, *args, **kwargs):
     # return super().list(request, *args, **kwargs)
     #     id = self.get_object(creator_id)
@@ -57,3 +86,32 @@ class FeedViewSet(ModelViewSet):
     #     feed = self.get_object(pk)
     #     feed.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
+
+    # def feedhit(self, request, ip=None, creator=None, *args, **kwargs):
+    #     try:
+    #         # ip주소와 게시글 번호로 기록을 조회함
+    #         hits = HitCount.objects.get(ip=ip, post=post)
+    #     except Exception as e:
+    #         # 처음 게시글을 조회한 경우엔 조회 기록이 없음
+    #         print(e)
+    #         hits = HitCount(ip=ip, post=post)
+    #         Feed.objects.filter(attachment_ptr_id=creator).update(hits=post.hits + 1)
+    #         hits.save()
+    #     else:
+    #         # 조회 기록은 있으나, 날짜가 다른 경우
+    #         if not hits.date == timezone.now().date():
+    #             Feed.objects.filter(attachment_ptr_id=creator).update(hits=post.hits + 1)
+    #             hits.date = timezone.now()
+    #             hits.save()
+    #         # 날짜가 같은 경우
+    #         else:
+    #             print(str(ip) + ' has already hit this post.\n\n')
+    #
+    # @action(detail=False, methods=['post', 'delete'])
+    # def like(self, request):
+    #     title = request.data.get("title", None)
+    #     with transaction.atomic():
+    #         try:
+    #             user = Feed.objects.select_for_update().get(username=request.username, title=title)
+    #         except:
+    #             return Response(status=status.HTTP
