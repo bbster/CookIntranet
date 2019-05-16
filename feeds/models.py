@@ -1,3 +1,5 @@
+from datetime import timezone
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from cook_intra import settings_base
 
@@ -17,16 +19,28 @@ class Feed(models.Model):
     priority = models.CharField(max_length=5, choices=PRIORITY_CHOICES)
     photo = models.ImageField(upload_to='images/', null=True, blank=True)  # 이미지 필드
     username = models.CharField(max_length=100, blank=True, null=True)
+    # hitcount = models.ForeignKey(models.HitCount, )
+    # is_like = models.BooleanField(default=False)
+
+    # pusher message modeling
+    message = models.CharField(blank=True, null=True, max_length=225)
+    status = models.CharField(blank=True, null=True, max_length=225)
 
     def __str__(self):
         return self.title
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.allowed_filter = ['id', 'creator', 'created', 'updated',
-                               'title', 'content', 'priority', 'photo', 'username']
+        self.allowed_filter = ['id', 'creator', 'created', 'updated', 'title',
+                               'content', 'priority', 'photo', 'username', 'message', 'status']
 
-    def save(self, *args, **kwargs):  #
+    def save(self, *args, **kwargs):
         if self.creator:
             self.username = self.creator.username
         return super().save(*args, **kwargs)  # real save
+
+
+# class HitCount(models.Model):
+#     ip = models.CharField(max_length=15, default=None, null=True)  # ip 주소
+#     post = models.ForeignKey(Feed, default=None, null=True)  # 게시글
+#     date = models.DateField(default=timezone.now(), null=True, blank=True)  # 조회수가 올라갔던 날짜

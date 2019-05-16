@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'corsheaders',
     'django_filters',
+    'hitcount',
     # My api
     'authen',
     'feeds',
