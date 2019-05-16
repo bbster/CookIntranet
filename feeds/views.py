@@ -6,10 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from base import feedpermissions
 from feeds.serializers import FeedSerializer
-from django.views.decorators.csrf import csrf_exempt
-from pusher import Pusher
 from .models import *
-from django.http import JsonResponse, HttpResponse
 
 
 class FeedViewSet(ModelViewSet):
