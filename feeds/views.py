@@ -1,11 +1,6 @@
 import requests
 import json
-from django.db import transaction
-from django.http import JsonResponse, HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 from django_filters.rest_framework import DjangoFilterBackend
-from pusher import Pusher
-from requests import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from base import feedpermissions
@@ -20,7 +15,6 @@ class FeedViewSet(ModelViewSet):
     filterset_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     search_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     permission_classes = (feedpermissions.BasePermission,)
-    pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9955e8f46a2c0', cluster=u'ap3')
 
     @action(detail=False, methods=['GET'])
     def feedlist(self, request, *args, **kwargs):
@@ -33,11 +27,6 @@ class FeedViewSet(ModelViewSet):
                 self.queryset = self.queryset.filter(created__range=(start_date, end_date))
             else:
                 self.queryset = self.queryset.filter(created__date=splited[0])
-                data = Feed.objects.all()
-                data = [
-                    {'name': person.username, 'status': person.status, 'message': person.message, 'id': person.id}
-                    for person in data]
-                return Response(data, safe=False)
         return super().list(request, *args, **kwargs)
 
     @action(detail=False, methods=['post'])
@@ -51,31 +40,7 @@ class FeedViewSet(ModelViewSet):
                    "url": "http://ec2-13-209-6-77.ap-northeast-2.compute.amazonaws.com/private/feeds"}
         req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
         print(req.status_code, req.reason)
-
-        message = Feed(message=request.POST.get('message', ''), status='', user=request.creator)
-        message.save()
-        # create an dictionary from the message instance so we can send only required details to pusher
-        message = {'name': message.user, 'status': message.status, 'message': message.message,
-                   'id': message.id}
-        # trigger the message, channel and event to pusher
-        pusher.trigger(u'a_channel', u'an_event', message)
-        # return a json response of the broadcasted message
-        return Response(message, safe=False), response
-
-    @csrf_exempt
-    def delivered(request, id):
-        message = Feed.objects.get(pk=id)
-        # verify it is not the same user who sent the message that wants to trigger a delivered event
-        if request.user.id != message.user.id:
-            socket_id = request.POST.get('socket_id', '')
-            message.status = 'Delivered'
-            message.save()
-            message = {'name': message.user.username, 'status': message.status, 'message': message.message,
-                       'id': message.id}
-            pusher.trigger(u'a_channel', u'delivered_message', message, socket_id)
-            return HttpResponse('ok')
-        else:
-            return HttpResponse('Awaiting Delivery')
+        return response
 
     # def updatefeed(self, request, *args, **kwargs):
     # return super().list(request, *args, **kwargs)

@@ -18,9 +18,6 @@ class Feed(models.Model):
     photo = models.ImageField(upload_to='images/', null=True, blank=True)  # 이미지 필드
     username = models.CharField(max_length=100, blank=True, null=True)
 
-    # pusher modeling
-    message = models.CharField(blank=True, null=True, max_length=225)
-    status = models.CharField(blank=True, null=True, max_length=225)
 
     def __str__(self):
         return self.title
@@ -28,7 +25,7 @@ class Feed(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.allowed_filter = ['id', 'creator', 'created', 'updated',
-                               'title', 'content', 'priority', 'photo', 'username', 'message', 'status']
+                               'title', 'content', 'priority', 'photo', 'username']
 
     def save(self, *args, **kwargs):  #
         if self.creator:
