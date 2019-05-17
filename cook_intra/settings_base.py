@@ -42,10 +42,10 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'corsheaders',
     'django_filters',
-    'pushers',
     # My api
     'authen',
     'feeds',
+    'pushers',
     'scheduler',
 
 ]
