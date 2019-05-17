@@ -6,6 +6,9 @@ from rest_framework.viewsets import ModelViewSet
 from base import feedpermissions
 from feeds.serializers import FeedSerializer
 from .models import *
+from pusher import Pusher
+
+pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9955e8f46a2c0', cluster=u'ap3')
 
 
 class FeedViewSet(ModelViewSet):
@@ -15,6 +18,7 @@ class FeedViewSet(ModelViewSet):
     filterset_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     search_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     permission_classes = (feedpermissions.BasePermission,)
+
 
     @action(detail=False, methods=['GET'])
     def feedlist(self, request, *args, **kwargs):
@@ -40,7 +44,13 @@ class FeedViewSet(ModelViewSet):
                    "url": "http://ec2-13-209-6-77.ap-northeast-2.compute.amazonaws.com/private/feeds"}
         req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
         print(req.status_code, req.reason)
+        message = {
+            "content": request.data['content']
+        }
+        pusher.trigger(u'a_channel', u'an_event', message)
         return response
+
+    # , username = request.data['username']
 
     # def updatefeed(self, request, *args, **kwargs):
     # return super().list(request, *args, **kwargs)
