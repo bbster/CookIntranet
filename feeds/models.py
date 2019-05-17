@@ -17,7 +17,6 @@ class Feed(models.Model):
     priority = models.CharField(max_length=5, choices=PRIORITY_CHOICES)
     photo = models.ImageField(upload_to='images/', null=True, blank=True)  # 이미지 필드
     username = models.CharField(max_length=100, blank=True, null=True)
-    message = models.CharField(blank=True, null=True, max_length=225)
 
     def __str__(self):
         return self.title
