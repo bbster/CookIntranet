@@ -47,7 +47,7 @@ class FeedViewSet(ModelViewSet):
         message = {
             "content": request.data['content']
         }
-        pusher.trigger(u'a_channel', u'an_event', message)
+        # pusher.trigger(u'a_channel', u'an_event', message)
         return response
 
     # , username = request.data['username']
