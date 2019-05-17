@@ -26,6 +26,7 @@ COPY    ./cook_intra/               /home/server/cook_intra/
 COPY    ./feeds/                    /home/server/feeds/
 COPY    ./scheduler/                /home/server/scheduler/
 COPY    ./media/                    /home/server/media/
+COPY    ./pushers/                  /home/server/pushers/
 
 # client source
 COPY    ./client_build/             /home/server/client/

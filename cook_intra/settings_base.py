@@ -42,12 +42,12 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'corsheaders',
     'django_filters',
-    'pusher',
+    'pushers',
     # My api
     'authen',
     'feeds',
     'scheduler',
-    'pushers',
+
 ]
 
 AUTH_USER_MODEL = 'authen.Member'
