@@ -24,7 +24,6 @@ COPY    ./authen/                   /home/server/authen/
 COPY    ./base/                     /home/server/base/
 COPY    ./cook_intra/               /home/server/cook_intra/
 COPY    ./feeds/                    /home/server/feeds/
-COPY    ./pushers/                  /home/server/pushers/
 COPY    ./scheduler/                /home/server/scheduler/
 COPY    ./media/                    /home/server/media/
 

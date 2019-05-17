@@ -1,59 +1,57 @@
-from pusher import Pusher, requests
+from pusher import Pusher
 from rest_framework.decorators import action
 from rest_framework.utils import json
-from rest_framework.viewsets import ModelViewSet
-from base import feedpermissions
 from django.http import JsonResponse, HttpResponse
 from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from authen.models import Member
-
+import requests
 
 pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9955e8f46a2c0', cluster=u'ap3')
 
 
-class FeedViewSet(ModelViewSet):
-    permission_classes = (feedpermissions.BasePermission,)
+@action(detail=False, methods=['get'])
+def conversations(request):
+    data = Feed.objects.all().order_by('-id')
+    data = [{'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content}
+            for feed in data]
+    return JsonResponse(data, safe=False)
 
-    @action(detail=False, methods=['get'])
-    def conversations(self, request):
-        data = Feed.objects.all()
-        data = [{'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content}
-                for feed in data]
-        return JsonResponse(data, safe=False)
 
-    @csrf_exempt
-    def broadcast(self, request):
-        message = Feed(title=request.POST.get('title', ''), content=request.POST.get('content', ''),
-                       creator=Member.objects.get(id=request.POST.get('id', '')))
+@csrf_exempt
+def broadcast(request):
+    message = Feed(title=request.POST.get('title', ''), content=request.POST.get('content', ''),
+                   creator=Member.objects.get(id=request.POST.get('id', '')))
+    message.save()
+    message = {'name': message.username, 'title': message.title, 'content': message.content,
+               'id': message.id, 'creator': message.creator.id}
+
+    header = {"Content-Type": "application/json; charset=utf-8",
+              "Authorization": "Basic ZTNmMDQ2YjUtMDc2NS00M2ZiLWJhNjYtMjkxY2EyMTljMjMy"}
+    payload = {"app_id": "1d318c98-5b25-480c-89d9-5c5d265ffb53",
+               "included_segments": ["All"],
+               "contents": {"en": "New Feed", "ko": request.POST.get('title', '')},
+               "url": "http://ec2-13-209-6-77.ap-northeast-2.compute.amazonaws.com/private/feeds"}
+    req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
+    print(req.status_code, req.reason)
+
+    pusher.trigger(u'a_channel', u'an_event', message)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
+    return JsonResponse(message, safe=False)
+
+
+@action(detail=False, methods=['post'])
+@csrf_exempt
+def delivered(request, id):
+    message = Feed.objects.get(pk=id)  # feed 게시판 index
+    if request.POST.get('userIdx') != id:  # 액션을 받은 유저 index != 메세지를 생성한 유저 index
+        socket_id = request.POST.get('socket_id', '')
         message.save()
         message = {'name': message.username, 'title': message.title, 'content': message.content,
                    'id': message.id, 'creator': message.creator.id}
-
-        header = {"Content-Type": "application/json; charset=utf-8",
-                  "Authorization": "Basic ZTNmMDQ2YjUtMDc2NS00M2ZiLWJhNjYtMjkxY2EyMTljMjMy"}
-        payload = {"app_id": "1d318c98-5b25-480c-89d9-5c5d265ffb53",
-                   "included_segments": ["All"],
-                   "contents": {"en": "New Feed", "ko": request.data['title']},
-                   "url": "http://ec2-13-209-6-77.ap-northeast-2.compute.amazonaws.com/private/feeds"}
-        req = request.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
-        print(req.status_code, req.reason)
-
-        pusher.trigger(u'a_channel', u'an_event', message)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
-        return JsonResponse(message, safe=False)
-
-    @action(detail=False, methods=['POST'])
-    @csrf_exempt
-    def delivered(self, request, id):
-        message = Feed.objects.get(pk=id)  # feed 게시판 index
-        if request.POST.get('userIdx') != id:  # 액션을 받은 유저 index != 메세지를 생성한 유저 index
-            socket_id = request.POST.get('socket_id', '')
-            message.save()
-            message = {'name': message.username, 'message': message.content, 'id': message.id}
-            pusher.trigger(u'a_channel', u'delivered_message', message, socket_id)
-            return HttpResponse('ok')
-        else:
-            return HttpResponse('Awaiting Delivery')
+        pusher.trigger(u'a_channel', u'delivered_message', message, socket_id)
+        return HttpResponse('ok')
+    else:
+        return HttpResponse('Awaiting Delivery')
 
     # def feedhit(self, request, ip=None, creator=None, *args, **kwargs):
     #     try:
