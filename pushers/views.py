@@ -8,7 +8,6 @@ from django.http import JsonResponse, HttpResponse
 pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9955e8f46a2c0', cluster=u'ap3')
 
 
-@action(detail=False, methods=['get'])
 @csrf_exempt
 def conversations(request):
     data = Feed.objects.all()
