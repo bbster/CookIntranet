@@ -1,10 +1,10 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from feeds.views import FeedViewSet
+from django.urls import path
 
-router = DefaultRouter()
-router.register('', FeedViewSet)
+from pushers.views import broadcast, conversations, delivered
 
 urlpatterns = [
-    path('', include(router.urls))
-]
+    path('conversation/', broadcast),
+    path('conversations/', conversations),
+    path('conversations/<int:id>/delivered/', delivered),
+    ]
+

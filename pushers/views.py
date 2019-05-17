@@ -1,5 +1,5 @@
 from django.views.decorators.csrf import csrf_exempt
-from pusher import Pusher
+from pusher import Pusher, requests
 from rest_framework.decorators import action
 from authen.models import Member
 from feeds.models import Feed
@@ -11,14 +11,15 @@ pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9
 @action(detail=False, methods=['get'])
 def conversations(request):
     data = Feed.objects.all()
-    data = [{'id': feed.id, 'name': feed.username, 'message': feed.content}
+    data = [{'id': feed.id, 'name': feed.username, 'message': feed.title, 'message': feed.content}
             for feed in data]
     return JsonResponse(data, safe=False)
 
 
 @csrf_exempt
 def broadcast(request):
-    message = Feed(content=request.POST.get('content', ''), creator=Member.objects.get(id=request.POST.get('id', '')))
+    message = Feed(title=request.POST.get('title', ''), content=request.POST.get('content', ''),
+                   creator=Member.objects.get(id=request.POST.get('id', '')))
     message.save()
     message = {'name': message.username, 'message': message.content, 'id': message.id, 'creator': message.creator.id}
     pusher.trigger(u'a_channel', u'an_event', message)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
@@ -37,3 +38,4 @@ def delivered(request, id):
         return HttpResponse('ok')
     else:
         return HttpResponse('Awaiting Delivery')
+
