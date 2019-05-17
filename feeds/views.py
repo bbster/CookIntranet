@@ -1,6 +1,7 @@
 import requests
 import json
 from django_filters.rest_framework import DjangoFilterBackend
+from requests import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from base import feedpermissions
@@ -47,7 +48,7 @@ class FeedViewSet(ModelViewSet):
         message = {
             "content": request.data['content']
         }
-        pusher.trigger(u'a_channel', u'an_event', message)
+        # pusher.trigger(u'a_channel', u'an_event', message)
         return response
 
     # , username = request.data['username']
