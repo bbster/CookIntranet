@@ -3,7 +3,6 @@ from rest_framework.decorators import action
 from rest_framework.utils import json
 from rest_framework.viewsets import ModelViewSet
 from base import feedpermissions
-from feeds.models import Feed
 from django.http import JsonResponse, HttpResponse
 from .models import *
 from django.views.decorators.csrf import csrf_exempt
@@ -19,7 +18,7 @@ class FeedViewSet(ModelViewSet):
     @action(detail=False, methods=['get'])
     def conversations(self, request):
         data = Feed.objects.all()
-        data = [{'id': feed.id, 'name': feed.username, 'message': feed.content}
+        data = [{'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content}
                 for feed in data]
         return JsonResponse(data, safe=False)
 
@@ -28,7 +27,8 @@ class FeedViewSet(ModelViewSet):
         message = Feed(title=request.POST.get('title', ''), content=request.POST.get('content', ''),
                        creator=Member.objects.get(id=request.POST.get('id', '')))
         message.save()
-        message = {'name': message.username, 'message': message.content, 'id': message.id, 'creator': message.creator.id}
+        message = {'name': message.username, 'title': message.title, 'content': message.content,
+                   'id': message.id, 'creator': message.creator.id}
 
         header = {"Content-Type": "application/json; charset=utf-8",
                   "Authorization": "Basic ZTNmMDQ2YjUtMDc2NS00M2ZiLWJhNjYtMjkxY2EyMTljMjMy"}
