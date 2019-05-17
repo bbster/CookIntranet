@@ -42,7 +42,6 @@ class FeedViewSet(ModelViewSet):
         print(req.status_code, req.reason)
         return response
 
-
     # def updatefeed(self, request, *args, **kwargs):
     # return super().list(request, *args, **kwargs)
     #     id = self.get_object(creator_id)

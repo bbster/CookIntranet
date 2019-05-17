@@ -5,6 +5,6 @@ from pushers.views import broadcast, conversations, delivered
 urlpatterns = [
     path('conversation/', broadcast),
     path('conversations/', conversations),
-    path('conversations/<int:id>/delivered', delivered),
+    path('conversations/<int:id>/delivered/', delivered),
     ]
 
