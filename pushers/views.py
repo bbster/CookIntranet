@@ -8,7 +8,7 @@ from django.http import JsonResponse, HttpResponse
 pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9955e8f46a2c0', cluster=u'ap3')
 
 
-@csrf_exempt
+@action(detail=False, methods=['get'])
 def conversations(request):
     data = Feed.objects.all()
     data = [{'name': feed.username, 'message': feed.content, 'id': feed.id} for
@@ -17,7 +17,6 @@ def conversations(request):
     return JsonResponse(data, safe=False)
 
 
-@csrf_exempt
 def broadcast(request):
     message = Feed(content=request.POST.get('content', ''), username=request.POST.get('username', ''))
     message.save()
@@ -27,7 +26,6 @@ def broadcast(request):
     return JsonResponse(message, safe=False)
 
 
-@csrf_exempt
 def delivered(request, id):
     message = Conversation.objects.get(pk=id)
     # verify it is not the same user who sent the message that wants to trigger a delivered event
