@@ -9,8 +9,6 @@ from feeds.serializers import FeedSerializer
 from .models import *
 from pusher import Pusher
 
-pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9955e8f46a2c0', cluster=u'ap3')
-
 
 class FeedViewSet(ModelViewSet):
     queryset = Feed.objects.all().order_by('-id')
@@ -19,6 +17,7 @@ class FeedViewSet(ModelViewSet):
     filterset_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     search_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     permission_classes = (feedpermissions.BasePermission,)
+    pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9955e8f46a2c0', cluster=u'ap3')
 
 
     @action(detail=False, methods=['GET'])
@@ -48,7 +47,7 @@ class FeedViewSet(ModelViewSet):
         message = {
             "content": request.data['content']
         }
-        # pusher.trigger(u'a_channel', u'an_event', message)
+        pusher.trigger(u'a_channel', u'an_event', message)
         return response
 
     # , username = request.data['username']
