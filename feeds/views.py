@@ -12,7 +12,7 @@ pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9
 
 @action(detail=False, methods=['get'])
 def conversations(request):
-    data = Feed.objects.all()
+    data = Feed.objects.all().order_by('-id')
     data = [{'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content}
             for feed in data]
     return JsonResponse(data, safe=False)
