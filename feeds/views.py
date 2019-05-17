@@ -44,9 +44,9 @@ class FeedViewSet(ModelViewSet):
                    "url": "http://ec2-13-209-6-77.ap-northeast-2.compute.amazonaws.com/private/feeds"}
         req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
         print(req.status_code, req.reason)
-        message = {
-            "content": request.data['content']
-        }
+        # message = {
+        #     "content": request.data['content']
+        # }
         # pusher.trigger(u'a_channel', u'an_event', message)
         return response
 
