@@ -1,6 +1,14 @@
 from django.urls import path
 
-from pushers.views import broadcast, conversations, delivered
+# router = DefaultRouter()
+# router.register('', FeedViewSet)
+#
+#
+# urlpatterns = [
+#     path('', include(router.urls)),
+# ]
+
+from feeds.views import broadcast, conversations, delivered
 
 urlpatterns = [
     path('conversation/', broadcast),

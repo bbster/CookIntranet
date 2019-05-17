@@ -9,7 +9,6 @@ urlpatterns = [
     path('api/', include('authen.urls')),  # 회원관련
     path('api/feeds/', include('feeds.urls')),  # 게시판
     path('api/scheduler/', include('scheduler.urls')),  # 스케줄
-    path('api/pusher/', include('pushers.urls')),  # pusher
     path('api/token/', obtain_jwt_token),
     path('api/token/refresh/', refresh_jwt_token),
     path('api/token/verify/', verify_jwt_token),
