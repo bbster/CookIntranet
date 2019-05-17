@@ -13,7 +13,6 @@ def conversations(request):
     data = Feed.objects.all()
     data = [{'name': feed.username, 'message': feed.content, 'id': feed.id} for
             feed in data]
-    print(data)
     return JsonResponse(data, safe=False)
 
 
