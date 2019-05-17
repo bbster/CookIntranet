@@ -13,6 +13,7 @@ django-filter
 psycopg2-binary
 simplejson
 pillow
+pusher
 environ
 crypto
 uwsgi
