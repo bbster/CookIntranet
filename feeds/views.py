@@ -17,7 +17,7 @@ class FeedViewSet(ModelViewSet):
     filterset_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     search_fields = ("creator", "created", "updated", "title", "content", "priority", "username")
     permission_classes = (feedpermissions.BasePermission,)
-    pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9955e8f46a2c0', cluster=u'ap3')
+    # pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9955e8f46a2c0', cluster=u'ap3')
 
 
     @action(detail=False, methods=['GET'])
