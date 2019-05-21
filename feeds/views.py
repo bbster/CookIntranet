@@ -1,3 +1,6 @@
+import jwt
+from rest_framework import viewsets
+from base import feedpermissions
 from pusher import Pusher
 from rest_framework.decorators import action
 from rest_framework.utils import json
@@ -52,6 +55,13 @@ def delivered(request, id):
         return HttpResponse('ok')
     else:
         return HttpResponse('Awaiting Delivery')
+
+
+@action(detail=False, methods=['post'])
+def delete(request, id):
+    deletecontent = Feed.objects.get(pk=id)
+    deletecontent.delete()
+    return HttpResponse('Delete Complete')
 
     # def feedhit(self, request, ip=None, creator=None, *args, **kwargs):
     #     try:
