@@ -24,11 +24,11 @@ def conversations(request):
 @csrf_exempt
 def broadcast(request):
     message = Feed(title=request.POST.get('title', ''), content=request.POST.get('content', ''),
-                   creator=Member.objects.get(id=request.POST.get('id', ''), created=request.POST.get('created','')))
+                   creator=Member.objects.get(id=request.POST.get('id', '')),
+                   priority=request.POST.get('priority', ''), created=request.POST.get('created', ''))
     message.save()
     message = {'name': message.username, 'title': message.title, 'content': message.content, 'id': message.id,
-               'creator': message.creator.id, 'created': message.created, 'updated': message.updated}
-
+               'priority': message.priority}
     header = {"Content-Type": "application/json; charset=utf-8",
               "Authorization": "Basic ZTNmMDQ2YjUtMDc2NS00M2ZiLWJhNjYtMjkxY2EyMTljMjMy"}
     payload = {"app_id": "1d318c98-5b25-480c-89d9-5c5d265ffb53",
