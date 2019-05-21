@@ -2,6 +2,7 @@ from pusher import Pusher
 from rest_framework.decorators import action
 from rest_framework.utils import json
 from django.http import JsonResponse, HttpResponse
+from feeds.serializers import FeedSerializer
 from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from authen.models import Member
@@ -11,9 +12,11 @@ pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9
 
 
 @action(detail=False, methods=['get'])
+@csrf_exempt
 def conversations(request):
     data = Feed.objects.all().order_by('-id')
-    data = [{'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content, 'created': feed.created}
+    data = [{'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
+             'created': feed.created, 'updated': feed.updated}
             for feed in data]
     return JsonResponse(data, safe=False)
 
@@ -23,8 +26,8 @@ def broadcast(request):
     message = Feed(title=request.POST.get('title', ''), content=request.POST.get('content', ''),
                    creator=Member.objects.get(id=request.POST.get('id', ''), created=request.POST.get('created','')))
     message.save()
-    message = {'name': message.username, 'title': message.title, 'content': message.content,
-               'id': message.id, 'creator': message.creator.id, 'created': message.created}
+    message = {'name': message.username, 'title': message.title, 'content': message.content, 'id': message.id,
+               'creator': message.creator.id, 'created': message.created, 'updated': message.updated}
 
     header = {"Content-Type": "application/json; charset=utf-8",
               "Authorization": "Basic ZTNmMDQ2YjUtMDc2NS00M2ZiLWJhNjYtMjkxY2EyMTljMjMy"}
@@ -55,6 +58,20 @@ def delivered(request, id):
 
 
 @action(detail=False, methods=['post'])
+@csrf_exempt
+def update(request, id):
+    updated = Feed.objects.get(pk=id)
+    data = request.POST
+    serializer = FeedSerializer(updated, data=data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        print(serializer.errors)
+    return JsonResponse(serializer.data, safe=False)
+
+
+@action(detail=False, methods=['post'])
+@csrf_exempt
 def delete(request, id):
     deletecontent = Feed.objects.get(pk=id)
     deletecontent.delete()
