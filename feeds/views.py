@@ -1,3 +1,4 @@
+import jwt
 from rest_framework import viewsets
 from base import feedpermissions
 from pusher import Pusher
