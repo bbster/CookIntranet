@@ -1,6 +1,3 @@
-import jwt
-from rest_framework import viewsets
-from base import feedpermissions
 from pusher import Pusher
 from rest_framework.decorators import action
 from rest_framework.utils import json
@@ -16,7 +13,7 @@ pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9
 @action(detail=False, methods=['get'])
 def conversations(request):
     data = Feed.objects.all().order_by('-id')
-    data = [{'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content}
+    data = [{'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content, 'created': feed.created}
             for feed in data]
     return JsonResponse(data, safe=False)
 
@@ -24,10 +21,10 @@ def conversations(request):
 @csrf_exempt
 def broadcast(request):
     message = Feed(title=request.POST.get('title', ''), content=request.POST.get('content', ''),
-                   creator=Member.objects.get(id=request.POST.get('id', '')))
+                   creator=Member.objects.get(id=request.POST.get('id', ''), created=request.POST.get('created','')))
     message.save()
     message = {'name': message.username, 'title': message.title, 'content': message.content,
-               'id': message.id, 'creator': message.creator.id}
+               'id': message.id, 'creator': message.creator.id, 'created': message.created}
 
     header = {"Content-Type": "application/json; charset=utf-8",
               "Authorization": "Basic ZTNmMDQ2YjUtMDc2NS00M2ZiLWJhNjYtMjkxY2EyMTljMjMy"}
