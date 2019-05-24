@@ -78,8 +78,9 @@ def delete(request, id):
     message.delete()
     if request.POST.get('userIdx') != id:  # 액션을 받은 유저 index != 메세지를 생성한 유저 index
         socket_id = request.POST.get('socket_id', '')
-        message = {'message': '삭제되었습니다.'}
-        pusher.trigger(u'a_channel', u'delivered_message', message, socket_id)
+        message = {'name': message.username, 'title': message.title, 'content': message.content, 'id': message.id,
+                   'priority': message.priority}
+        pusher.trigger(u'a_channel', u'deleted_message', message, socket_id)
         return HttpResponse('ok')
     else:
         return HttpResponse('Awaiting Delivery')
