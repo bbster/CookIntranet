@@ -18,8 +18,8 @@ def conversations(request):
     response = {}
     for feed in data:
         response[feed.id] = {'name': feed.username, 'title': feed.title, 'content': feed.content,
-                             'created': feed.created.strftime('%Y-%m-%d-%H-%M-%S'),
-                             'updated': feed.updated.strftime('%Y-%m-%d-%H-%M-%S')}
+                             'created': feed.created.strftime('%Y-%m-%d-%H-%M'),
+                             'updated': feed.updated.strftime('%Y-%m-%d-%H-%M')}
 
     return JsonResponse(json.dumps(response), safe=False)
 
