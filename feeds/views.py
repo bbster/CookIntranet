@@ -27,12 +27,15 @@ def conversations(request):
 @action(detail=False, methods=['post'])
 @csrf_exempt
 def broadcast(request):
-    message = Feed(title=request.POST.get('title', ''), content=request.POST.get('content', ''),
-                   creator=Member.objects.get(id=request.POST.get('id', '')),
-                   priority=request.POST.get('priority', ''), created=request.POST.get('created', ''))
-    message.save()
-    message = {'name': message.username, 'title': message.title, 'content': message.content, 'id': message.id,
-               'priority': message.priority}
+    feed = Feed(title=request.POST.get('title', ''), content=request.POST.get('content', ''),
+                creator=Member.objects.get(id=request.POST.get('id', '')),
+                priority=request.POST.get('priority', ''), created=request.POST.get('created', ''))
+    feed.save()
+    response = {}
+    response[feed.id] = {'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
+                         'created': str(feed.created),
+                         'updated': str(feed.updated),
+                         'priority': feed.priority}
     header = {"Content-Type": "application/json; charset=utf-8",
               "Authorization": "Basic ZTNmMDQ2YjUtMDc2NS00M2ZiLWJhNjYtMjkxY2EyMTljMjMy"}
     payload = {"app_id": "1d318c98-5b25-480c-89d9-5c5d265ffb53",
@@ -42,8 +45,8 @@ def broadcast(request):
     req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
     print(req.status_code, req.reason)
 
-    pusher.trigger(u'a_channel', u'an_event', message)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
-    return JsonResponse(message, safe=False)
+    pusher.trigger(u'a_channel', u'an_event', response)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
+    return JsonResponse(response, safe=False)
 
 
 @action(detail=False, methods=['post'])
