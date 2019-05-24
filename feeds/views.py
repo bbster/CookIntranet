@@ -15,12 +15,13 @@ pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9
 @csrf_exempt
 def conversations(request):
     data = Feed.objects.all().order_by('-id')
-    response = object
+    response = {}
     for feed in data:
-        response[feed.id] = {'name': feed.username, 'title': feed.title, 'content': feed.content, 'created': feed.created,
-                                'updated': feed.updated}
+        response[feed.id] = {'name': feed.username, 'title': feed.title, 'content': feed.content,
+                             'created': feed.created.strftime('%Y-%m-%d-%H-%M-%S'),
+                             'updated': feed.updated.strftime('%Y-%m-%d-%H-%M-%S')}
 
-    return JsonResponse(response, safe=False)
+    return JsonResponse(json.dumps(response), safe=False)
 
 
 @action(detail=False, methods=['post'])
