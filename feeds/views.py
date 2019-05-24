@@ -15,9 +15,9 @@ pusher = Pusher(app_id=u'783462', key=u'2ee37955973a41a7c708', secret=u'77b103e9
 @csrf_exempt
 def conversations(request):
     data = Feed.objects.all().order_by('-id')
-    data = [{'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
-             'created': feed.created, 'updated': feed.updated}
-            for feed in data]
+    data = [{feed.id: {'name': feed.username, 'title': feed.title, 'content': feed.content,
+            'created': feed.created, 'updated': feed.updated}}for feed in data]
+
     return JsonResponse(data, safe=False)
 
 
@@ -81,7 +81,7 @@ def delete(request, id):
         message = {'name': message.username, 'title': message.title, 'content': message.content, 'id': message.id,
                    'priority': message.priority}
         pusher.trigger(u'a_channel', u'deleted_message', message, socket_id)
-        return JsonResponse(message, safe=False)
+        return HttpResponse(message, safe=False)
     else:
         return HttpResponse('retry')
 
