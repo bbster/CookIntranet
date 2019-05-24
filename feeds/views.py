@@ -21,6 +21,7 @@ def conversations(request):
     return JsonResponse(data, safe=False)
 
 
+@action(detail=False, methods=['post'])
 @csrf_exempt
 def broadcast(request):
     message = Feed(title=request.POST.get('title', ''), content=request.POST.get('content', ''),
@@ -73,9 +74,15 @@ def update(request, id):
 @action(detail=False, methods=['post'])
 @csrf_exempt
 def delete(request, id):
-    deletecontent = Feed.objects.get(pk=id)
-    deletecontent.delete()
-    return HttpResponse('Delete Complete')
+    message = Feed.objects.get(pk=id)  # feed 게시판 index
+    message.delete()
+    if request.POST.get('userIdx') != id:  # 액션을 받은 유저 index != 메세지를 생성한 유저 index
+        socket_id = request.POST.get('socket_id', '')
+        message = {'message': '삭제되었습니다.'}
+        pusher.trigger(u'a_channel', u'delivered_message', message, socket_id)
+        return HttpResponse('ok')
+    else:
+        return HttpResponse('Awaiting Delivery')
 
     # def feedhit(self, request, ip=None, creator=None, *args, **kwargs):
     #     try:
