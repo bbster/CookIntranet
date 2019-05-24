@@ -81,9 +81,9 @@ def delete(request, id):
         message = {'name': message.username, 'title': message.title, 'content': message.content, 'id': message.id,
                    'priority': message.priority}
         pusher.trigger(u'a_channel', u'deleted_message', message, socket_id)
-        return HttpResponse('ok')
+        return JsonResponse(message, safe=False)
     else:
-        return HttpResponse('Awaiting Delivery')
+        return HttpResponse('retry')
 
     # def feedhit(self, request, ip=None, creator=None, *args, **kwargs):
     #     try:
