@@ -17,7 +17,7 @@ def conversations(request):
     data = Feed.objects.all().order_by('-id')
     response = {}
     for feed in data:
-        response[feed.id] = {'name': feed.username, 'title': feed.title, 'content': feed.content,
+        response[feed.id] = {'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
                              'created': str(feed.created),
                              'updated': str(feed.updated)}
 
