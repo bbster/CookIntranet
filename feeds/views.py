@@ -84,7 +84,7 @@ def delete(request, id):
         message = {'name': message.username, 'title': message.title, 'content': message.content, 'id': message.id,
                    'priority': message.priority}
         pusher.trigger(u'a_channel', u'deleted_message', message, socket_id)
-        return HttpResponse(message, safe=False)
+        return HttpResponse('OK')
     else:
         return HttpResponse('retry')
 
