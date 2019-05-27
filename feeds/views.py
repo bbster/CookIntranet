@@ -83,7 +83,7 @@ def delete(request, id):
     response = {'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
                          'created': str(feed.created), 'updated': str(feed.updated),
                          'priority': feed.priority}
-    pusher.trigger(u'a_channel', u'an_event', response)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
+    pusher.trigger(u'a_channel', u'deleted_message', response)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
     return JsonResponse(response, safe=False)
 
     # def feedhit(self, request, ip=None, creator=None, *args, **kwargs):
