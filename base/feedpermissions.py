@@ -34,6 +34,19 @@ class BasePermission(DRFBasePermission):
         #         return False
         #     return True
         #
+        # elif view.action == "update":  # view.decode_jwt_token 조인
+        #     token = request.data.get("token", None)
+        #     if not token:
+        #         return False
+        #     try:
+        #         user_info = jwt.decode(token, settings_base.SECRET_KEY, algorithms=['HS256'])  # jwt token decode
+        #         user = Member.objects.get(user_info["username"])
+        #         request.user = user
+        #         return True
+        #     except Exception as e:
+        #         return False
+        #     return True
+        #
         # elif view.action == "delete":  # view.decode_jwt_token 조인
         #     token = request.data.get("token", None)
         #     if not token:

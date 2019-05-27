@@ -31,10 +31,8 @@ def broadcast(request):
                 creator=Member.objects.get(id=request.POST.get('id', '')),
                 priority=request.POST.get('priority', ''), created=request.POST.get('created', ''))
     feed.save()
-    response = {}
-    response[feed.id] = {'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
-                         'created': str(feed.created),
-                         'updated': str(feed.updated),
+    response = {'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
+                         'created': str(feed.created), 'updated': str(feed.updated),
                          'priority': feed.priority}
     header = {"Content-Type": "application/json; charset=utf-8",
               "Authorization": "Basic ZTNmMDQ2YjUtMDc2NS00M2ZiLWJhNjYtMjkxY2EyMTljMjMy"}

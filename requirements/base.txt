@@ -2,22 +2,20 @@ pip
 pytz==2019.1
 
 #django
+crypto==1.4.1
 Django==2.2
 django-environ==0.4.5
 django-rest-auth==0.9.5
-djangorestframework==3.9.2
+djangorestframework
 djangorestframework-jwt
 djangorestframework-simplejwt
 django-cors-headers
 django-filter
-psycopg2-binary
-simplejson
-pillow
-pusher
 environ
-crypto
-uwsgi
 ipython
-
-# for development
+pillow
+psycopg2-binary
+pusher
+simplejson
+uwsgi
 
