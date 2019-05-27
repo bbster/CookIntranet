@@ -78,16 +78,13 @@ def update(request, id):
 @action(detail=False, methods=['post'])
 @csrf_exempt
 def delete(request, id):
-    message = Feed.objects.get(pk=id)  # feed 게시판 index
-    message.delete()
-    if request.POST.get('userIdx') != id:  # 액션을 받은 유저 index != 메세지를 생성한 유저 index
-        socket_id = request.POST.get('socket_id', '')
-        message = {'name': message.username, 'title': message.title, 'content': message.content, 'id': message.id,
-                   'priority': message.priority}
-        pusher.trigger(u'a_channel', u'deleted_message', message, socket_id)
-        return HttpResponse('OK')
-    else:
-        return HttpResponse('retry')
+    feed = Feed.objects.get(pk=id)  # feed 게시판 index
+    feed.delete()
+    response = {'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
+                         'created': str(feed.created), 'updated': str(feed.updated),
+                         'priority': feed.priority}
+    pusher.trigger(u'a_channel', u'an_event', response)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
+    return JsonResponse(response, safe=False)
 
     # def feedhit(self, request, ip=None, creator=None, *args, **kwargs):
     #     try:
