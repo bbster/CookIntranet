@@ -50,7 +50,7 @@ def broadcast(request):
                "url": "http://ec2-13-209-6-77.ap-northeast-2.compute.amazonaws.com/private/feeds"}
     req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
     print(req.status_code, req.reason)
-    pusher.trigger(u'a_channel', u'create_event', response)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
+    pusher.trigger(u'a_channel', u'created_event', response)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
     return JsonResponse(response, safe=False)
 
 
