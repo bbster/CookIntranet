@@ -19,7 +19,8 @@ def conversations(request):
     for feed in data:
         response[feed.id] = {'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
                              'created': str(feed.created),
-                             'updated': str(feed.updated)}
+                             'updated': str(feed.updated),
+                             'priority': feed.priority}
 
     return JsonResponse(json.dumps(response), safe=False)
 
@@ -55,7 +56,7 @@ def delivered(request, id):
         socket_id = request.POST.get('socket_id', '')
         message.save()
         message = {'name': message.username, 'title': message.title, 'content': message.content,
-                   'id': message.id, 'creator': message.creator.id}
+                   'id': message.id, 'creator': message.creator.id, 'priority': message.priority}
         pusher.trigger(u'a_channel', u'delivered_message', message, socket_id)
         return HttpResponse('ok')
     else:
@@ -77,17 +78,6 @@ def update(request, id):
     else:
         print(response.errors)
     return JsonResponse(response, safe=False)
-
-# @action(detail=False, methods=['post'])
-# @csrf_exempt
-# def update(request, id):
-#     feed = Feed.objects.get(pk=id)  # feed 게시판 index
-#     feed.update()
-#     response = {'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
-#                          'created': str(feed.created), 'updated': str(feed.updated),
-#                          'priority': feed.priority}
-#     pusher.trigger(u'a_channel', u'update_message', response)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
-#     return JsonResponse(response, safe=False)
 
 
 @action(detail=False, methods=['post'])
