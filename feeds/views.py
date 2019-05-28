@@ -65,14 +65,29 @@ def delivered(request, id):
 @action(detail=False, methods=['post'])
 @csrf_exempt
 def update(request, id):
-    updated = Feed.objects.get(pk=id)
+    feed = Feed.objects.get(pk=id)
     data = request.POST
-    serializer = FeedSerializer(updated, data=data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
+    response = FeedSerializer(feed, data=data, partial=True)
+    if response.is_valid():
+        response.save()
+        response = {'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
+                          'created': str(feed.created), 'updated': str(feed.updated),
+                          'priority': feed.priority}
+        pusher.trigger(u'a_channel', u'update_message', response)
     else:
-        print(serializer.errors)
-    return JsonResponse(serializer.data, safe=False)
+        print(response.errors)
+    return JsonResponse(response, safe=False)
+
+# @action(detail=False, methods=['post'])
+# @csrf_exempt
+# def update(request, id):
+#     feed = Feed.objects.get(pk=id)  # feed 게시판 index
+#     feed.update()
+#     response = {'id': feed.id, 'name': feed.username, 'title': feed.title, 'content': feed.content,
+#                          'created': str(feed.created), 'updated': str(feed.updated),
+#                          'priority': feed.priority}
+#     pusher.trigger(u'a_channel', u'update_message', response)  # 이벤트 생성  -> 클라이어트로 전송 -> 모든 유저
+#     return JsonResponse(response, safe=False)
 
 
 @action(detail=False, methods=['post'])
