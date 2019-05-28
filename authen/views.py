@@ -58,6 +58,14 @@ class LoginViewSet(viewsets.ModelViewSet):
         else:
             return Response({"Error": "ERROR"}, status=400)
 
+    def update(self, request, *args, **kwagrs):
+        serializer = self.serializer_class(request.user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
 
 class VerifyViewSet(viewsets.ModelViewSet):
     serializer_class = VerifySerializers
